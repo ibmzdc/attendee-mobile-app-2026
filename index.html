@@ -1,0 +1,3562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>IBM Z Design Council — Attendee Event Guide</title>
+<meta name="theme-color" content="#1e2761">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy: #1e2761;
+    --navy-dark: #12183a;
+    --blue-ibm: #0f62fe;
+    --blue-light: #edf5ff;
+    --text-primary: #161616;
+    --text-secondary: #525252;
+    --text-muted: #8d8d8d;
+    --bg-app: #f4f6fb;
+    --bg-card: #ffffff;
+    --border: #e2e8f0;
+    --purple: #8a3ffc;
+    --purple-light: #f6f2ff;
+    --teal: #0072c3;
+    --green: #198038;
+    --green-light: #defbe6;
+    --amber: #b28600;
+    --amber-light: #fef3c7;
+    --radius: 12px;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #0f172a;
+    color: var(--text-primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
+  }
+
+  /* APP SHELL / MOBILE DEVICE CONTAINER */
+  .mobile-frame {
+    width: 100%;
+    max-width: 440px;
+    height: 100vh;
+    max-height: 920px;
+    background: var(--bg-app);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 25px 60px -15px rgba(0,0,0,0.5);
+  }
+  @media (min-width: 480px) {
+    .mobile-frame {
+      border-radius: 36px;
+      height: 92vh;
+      border: 8px solid #1e293b;
+    }
+  }
+
+  /* TOP APP HEADER */
+  header.app-topbar {
+    background: var(--navy);
+    color: #ffffff;
+    padding: 16px 20px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    z-index: 10;
+  }
+  .app-brand h1 {
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+  }
+  .app-brand p {
+    font-size: 11px;
+    color: #cbd5e1;
+    margin-top: 1px;
+  }
+  .top-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .icon-btn {
+    background: rgba(255,255,255,0.15);
+    border: none;
+    color: #ffffff;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    cursor: pointer;
+    position: relative;
+    transition: background 0.15s;
+  }
+  .icon-btn:hover { background: rgba(255,255,255,0.25); }
+  .notif-badge {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 8px;
+    height: 8px;
+    background: #ef4444;
+    border-radius: 50%;
+    border: 2px solid var(--navy);
+  }
+
+  /* LIVE BANNER */
+  .live-pulse-banner {
+    background: #1e3a8a;
+    color: #ffffff;
+    padding: 8px 16px;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    flex-shrink: 0;
+  }
+  .pulse-indicator {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+  }
+  .pulse-dot {
+    width: 7px;
+    height: 7px;
+    background: #22c55e;
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+  }
+  @keyframes pulse {
+    0% { transform: scale(0.95); opacity: 0.8; }
+    50% { transform: scale(1.3); opacity: 1; }
+    100% { transform: scale(0.95); opacity: 0.8; }
+  }
+
+  /* MAIN SCROLLABLE CONTENT AREA */
+  .app-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* VIEW PANELS */
+  .view-tab {
+    display: none;
+  }
+  .view-tab.active {
+    display: block;
+    animation: fadeIn 0.15s ease-out;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* DAY PICKER PILLS */
+  .day-scroll {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+    scrollbar-width: none;
+  }
+  .day-scroll::-webkit-scrollbar { display: none; }
+  .day-pill {
+    padding: 8px 14px;
+    border-radius: 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.15s;
+    flex-shrink: 0;
+    text-align: center;
+  }
+  .day-pill small { display: block; font-size: 9px; font-weight: 400; color: var(--text-muted); }
+  .day-pill.active {
+    background: var(--navy);
+    border-color: var(--navy);
+    color: #ffffff;
+  }
+  .day-pill.active small { color: #cbd5e1; }
+
+  /* SEARCH & TRACK FILTER */
+  .filter-controls {
+    margin-bottom: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .app-search {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    font-size: 13px;
+    color: var(--text-primary);
+  }
+  .app-search:focus { outline: 2px solid var(--blue-ibm); outline-offset: 1px; }
+
+  .track-chips {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+  .track-chips::-webkit-scrollbar { display: none; }
+  .track-chip {
+    padding: 4px 10px;
+    border-radius: 14px;
+    font-size: 11px;
+    font-weight: 600;
+    background: #e2e8f0;
+    color: #475569;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .track-chip.active { background: var(--blue-ibm); color: #ffffff; }
+
+  /* SESSION CARDS */
+  .session-card {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin-bottom: 12px;
+    border: 1px solid var(--border);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.1s;
+  }
+  .session-card:active { transform: scale(0.99); }
+  .session-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    border-radius: var(--radius) 0 0 var(--radius);
+    background: var(--blue-ibm);
+  }
+  .session-card.track-collab::before { background: var(--purple); }
+  .session-card.track-social::before { background: var(--amber); }
+
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 6px;
+  }
+  .session-time {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--blue-ibm);
+    letter-spacing: 0.2px;
+  }
+  .bookmark-btn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: #cbd5e1;
+    cursor: pointer;
+    padding: 2px 4px;
+    line-height: 1;
+    transition: color 0.15s;
+  }
+  .bookmark-btn.saved { color: #f59e0b; }
+
+  .session-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #0f172a;
+    line-height: 1.35;
+    margin-bottom: 6px;
+  }
+  .session-speakers {
+    font-size: 12px;
+    color: #475569;
+    margin-bottom: 8px;
+  }
+  .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    color: var(--text-muted);
+    border-top: 1px solid #f1f5f9;
+    padding-top: 8px;
+    margin-top: 6px;
+  }
+  .room-tag {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--navy);
+    font-weight: 600;
+  }
+  .track-tag {
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: #f1f5f9;
+    color: #475569;
+    font-weight: 600;
+  }
+
+  /* DIRECTORY CARDS */
+  .directory-card {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #dbeafe;
+    color: var(--blue-ibm);
+    font-weight: 700;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .avatar.ibm { background: #f3e8ff; color: var(--purple); }
+  .dir-info { flex: 1; min-width: 0; }
+  .dir-name { font-size: 13px; font-weight: 700; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .dir-company { font-size: 11px; font-weight: 600; color: var(--blue-ibm); }
+  .dir-role { font-size: 11px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .badge-tag { font-size: 9px; padding: 2px 6px; border-radius: 4px; font-weight: 600; }
+  .badge-cust { background: #dcfce7; color: #166534; }
+  .badge-ibm { background: #f3e8ff; color: #6b21a8; }
+
+  /* DIGITAL BADGE TAB */
+  .digital-badge {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 28px 20px;
+    text-align: center;
+    border: 1px solid var(--border);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+    position: relative;
+    overflow: hidden;
+  }
+  .badge-stripe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 10px;
+    background: linear-gradient(90deg, #1e2761, #0f62fe, #8a3ffc);
+  }
+  .badge-event-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--navy);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .badge-avatar-big {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: #1e2761;
+    color: #ffffff;
+    font-size: 26px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 14px;
+    border: 3px solid #e0e7ff;
+  }
+  .badge-user-name { font-size: 22px; font-weight: 800; color: #0f172a; margin-bottom: 4px; }
+  .badge-user-company { font-size: 15px; font-weight: 600; color: var(--blue-ibm); margin-bottom: 4px; }
+  .badge-user-role { font-size: 12px; color: #64748b; margin-bottom: 24px; }
+  .qr-code-box {
+    background: #f8fafc;
+    border: 2px dashed #cbd5e1;
+    border-radius: 12px;
+    padding: 20px;
+    display: inline-block;
+    margin-bottom: 14px;
+  }
+  .qr-simulated {
+    width: 140px;
+    height: 140px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%231e2761' d='M0 0h30v30H0zm40 0h20v10H40zm30 0h30v30H70zM10 10v10h10V10zm70 0v10h10V10zM0 40h10v20H0zm20 0h20v10H20zm30 0h10v10H50zm20 0h30v10H70zm-40 20h20v20H30zm30 0h10v30H60zm-60 10h30v30H0zm10 10v10h10V80zm70-10h20v30H80zm-10 10h10v10H70z'/%3E%3C/svg%3E") no-repeat center;
+    background-size: contain;
+  }
+  .badge-id { font-family: monospace; font-size: 11px; color: var(--text-muted); }
+
+  /* VENUE TAB */
+  .venue-card {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    padding: 16px;
+    border: 1px solid var(--border);
+    margin-bottom: 14px;
+  }
+  .venue-card h3 { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+  .wifi-box {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+  }
+
+  /* BOTTOM NAVIGATION BAR */
+  nav.app-bottombar {
+    background: #ffffff;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-around;
+    padding: 8px 4px 14px;
+    flex-shrink: 0;
+    z-index: 10;
+  }
+  .nav-item {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 10px;
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    cursor: pointer;
+    flex: 1;
+    transition: color 0.15s;
+  }
+  .nav-item .nav-icon { font-size: 18px; }
+  .nav-item.active { color: var(--blue-ibm); }
+
+  /* MODAL DRAWER */
+  .modal-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 50;
+    display: none;
+    align-items: flex-end;
+  }
+  .modal-overlay.open { display: flex; animation: overlayIn 0.2s ease-out; }
+  @keyframes overlayIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .bottom-sheet {
+    background: #ffffff;
+    width: 100%;
+    max-height: 80%;
+    border-radius: 20px 20px 0 0;
+    padding: 20px;
+    overflow-y: auto;
+    position: relative;
+    animation: sheetUp 0.25s ease-out;
+  }
+  @keyframes sheetUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+  .sheet-handle {
+    width: 36px;
+    height: 4px;
+    background: #cbd5e1;
+    border-radius: 2px;
+    margin: 0 auto 16px;
+  }
+  .close-modal-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: #f1f5f9;
+    border: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    font-size: 14px;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<div class="mobile-frame">
+
+  <!-- TOP HEADER -->
+  <header class="app-topbar">
+    <div class="app-brand">
+      <h1>IBM Z Design Council</h1>
+      <p>Fall 2026 · Antwerp, Belgium</p>
+    </div>
+    <div class="top-actions">
+      <button class="icon-btn" onclick="openAnnouncements()">
+        🔔<span class="notif-badge"></span>
+      </button>
+      <button class="icon-btn" onclick="switchNav(document.getElementById('nav-badge'), 'tab-my-badge')">
+        👤
+      </button>
+    </div>
+  </header>
+
+  <!-- LIVE PULSE -->
+  <div class="live-pulse-banner">
+    <div class="pulse-indicator">
+      <div class="pulse-dot"></div>
+      <span id="live-session-text">Live: 82 Interactive Sessions Scheduled</span>
+    </div>
+    <span style="font-size:10px; color:#cbd5e1;">Hilton Antwerp</span>
+  </div>
+
+  <!-- MAIN SCROLLABLE APP BODY -->
+  <div class="app-body">
+
+    <!-- ========================================== -->
+    <!-- VIEW 1: FULL SCHEDULE -->
+    <!-- ========================================== -->
+    <section id="tab-schedule" class="view-tab active">
+      <!-- DAY PICKER -->
+      <div class="day-scroll">
+        <button class="day-pill active" onclick="filterByDay(this, 'Sunday')">Sun Oct 18<small>Kickoff</small></button>
+        <button class="day-pill" onclick="filterByDay(this, 'Monday')">Mon Oct 19<small>General Session</small></button>
+        <button class="day-pill" onclick="filterByDay(this, 'Tuesday')">Tue Oct 20<small>Tracks</small></button>
+        <button class="day-pill" onclick="filterByDay(this, 'Wednesday')">Wed Oct 21<small>Design Fair</small></button>
+        <button class="day-pill" onclick="filterByDay(this, 'Thursday')">Thu Oct 22<small>Wrap-up</small></button>
+      </div>
+
+      <!-- SEARCH & TRACK CHIPS -->
+      <div class="filter-controls">
+        <input type="text" id="schedule-search" class="app-search" placeholder="🔍 Search session, speaker, topic..." oninput="renderSchedule()">
+        <div class="track-chips">
+          <button class="track-chip active" onclick="filterTrack(this, 'all')">All Tracks</button>
+          <button class="track-chip" onclick="filterTrack(this, 'Collaborative')">Collaborative</button>
+          <button class="track-chip" onclick="filterTrack(this, 'General')">General Session</button>
+          <button class="track-chip" onclick="filterTrack(this, 'Break')">Social & Meals</button>
+        </div>
+      </div>
+
+      <!-- SESSION LIST -->
+      <div id="session-list-container">
+        <!-- Dynamically rendered -->
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW 2: MY ITINERARY / BOOKMARKS -->
+    <!-- ========================================== -->
+    <section id="tab-my-agenda" class="view-tab">
+      <div style="margin-bottom: 14px;">
+        <h2 style="font-size:16px; font-weight:700; color:var(--navy);">⭐ My Personal Itinerary</h2>
+        <p style="font-size:11px; color:#64748b;">Sessions you bookmarked for easy on-site access</p>
+      </div>
+      <div id="my-agenda-container">
+        <!-- Dynamically populated from bookmarked IDs -->
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW 3: ATTENDEE & SPEAKER DIRECTORY -->
+    <!-- ========================================== -->
+    <section id="tab-directory" class="view-tab">
+      <div class="filter-controls">
+        <input type="text" id="directory-search" class="app-search" placeholder="🔍 Search attendees, speakers, accounts..." oninput="renderDirectory()">
+        <div class="track-chips">
+          <button class="track-chip active" onclick="filterDirType(this, 'all')">All (123)</button>
+          <button class="track-chip" onclick="filterDirType(this, 'Customer')">Clients / Customers</button>
+          <button class="track-chip" onclick="filterDirType(this, 'IBM')">IBM Leads & Reps</button>
+        </div>
+      </div>
+      <div id="directory-list-container">
+        <!-- Dynamically populated -->
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW 4: VENUE & CONCIERGE -->
+    <!-- ========================================== -->
+    <section id="tab-venue" class="view-tab">
+      <div class="venue-card">
+        <h3>📍 Hilton Antwerp Old Town</h3>
+        <p style="font-size:12px; color:#475569; margin-bottom:8px;">
+          Groenplaats 32, 2000 Antwerp, Belgium<br>
+          Main event ballroom: <strong>Belle Epoque Ballroom (1st Floor)</strong>
+        </p>
+        <div class="wifi-box">
+          <div>
+            <strong>📶 Conference Wi-Fi</strong><br>
+            Network: <code>Hilton_Conference</code><br>
+            Passcode: <code>ZDesign2026</code>
+          </div>
+          <button class="track-chip active" onclick="alert('Wi-Fi password copied!')">Copy</button>
+        </div>
+      </div>
+
+      <div class="venue-card">
+        <h3>🗺️ Room Guide</h3>
+        <ul style="font-size:12px; color:#475569; padding-left:18px; line-height:1.8;">
+          <li><strong>Belle Epoque Ballroom:</strong> General Sessions, Keynotes</li>
+          <li><strong>Ballroom Foyer:</strong> Registration, Breakfast & Breaks</li>
+          <li><strong>Shah Room:</strong> Collaborative Design Thinking Track A</li>
+          <li><strong>Brabo Room:</strong> Collaborative Design Thinking Track B</li>
+          <li><strong>Plantin Room:</strong> Client Deep Dives & Executive Briefings</li>
+        </ul>
+      </div>
+
+      <div class="venue-card">
+        <h3>🍽️ Event Meals & Socials</h3>
+        <p style="font-size:12px; color:#475569; line-height:1.6;">
+          • <strong>Sunday 5:00 PM:</strong> Welcome Reception (Ballroom Foyer)<br>
+          • <strong>Mon–Thu:</strong> Daily Breakfast Buffet & Seated Lunches<br>
+          • <strong>Wednesday 6:30 PM:</strong> Gala Dinner (Meet in Lobby)
+        </p>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW 5: DIGITAL BADGE -->
+    <!-- ========================================== -->
+    <section id="tab-my-badge" class="view-tab">
+      <div class="digital-badge">
+        <div class="badge-stripe"></div>
+        <div class="badge-event-title">IBM Z Design Council · Fall 2026</div>
+        <div class="badge-avatar-big" id="badge-display-avatar">PH</div>
+        <div class="badge-user-name" id="badge-display-name">Peter Heijblom</div>
+        <div class="badge-user-company" id="badge-display-company">ABN AMRO</div>
+        <div class="badge-user-role" id="badge-display-role">Executive Sponsor · Client</div>
+        
+        <div class="qr-code-box">
+          <div class="qr-simulated"></div>
+        </div>
+        <div class="badge-id">REG-1003 · FAST CHECK-IN CODE</div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- BOTTOM NAVIGATION BAR -->
+  <nav class="app-bottombar">
+    <button class="nav-item active" onclick="switchNav(this, 'tab-schedule')">
+      <span class="nav-icon">📅</span>
+      <span>Schedule</span>
+    </button>
+    <button class="nav-item" onclick="switchNav(this, 'tab-my-agenda')">
+      <span class="nav-icon">⭐</span>
+      <span>My Agenda</span>
+    </button>
+    <button class="nav-item" onclick="switchNav(this, 'tab-directory')">
+      <span class="nav-icon">👥</span>
+      <span>Directory</span>
+    </button>
+    <button class="nav-item" onclick="switchNav(this, 'tab-venue')">
+      <span class="nav-icon">📍</span>
+      <span>Venue</span>
+    </button>
+    <button class="nav-item" id="nav-badge" onclick="switchNav(this, 'tab-my-badge')">
+      <span class="nav-icon">🪪</span>
+      <span>My Badge</span>
+    </button>
+  </nav>
+
+  <!-- SESSION DETAILS MODAL / BOTTOM SHEET -->
+  <div id="session-modal" class="modal-overlay" onclick="closeModal(event)">
+    <div class="bottom-sheet" onclick="event.stopPropagation()">
+      <div class="sheet-handle"></div>
+      <button class="close-modal-btn" onclick="document.getElementById('session-modal').classList.remove('open')">✕</button>
+      <div id="modal-content">
+        <!-- Injected dynamically -->
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+let appData = {
+  "event": {
+    "name": "IBM Z Design Council",
+    "edition": "Fall 2026",
+    "dates": "October 18–22, 2026",
+    "venue": "Hilton Antwerp Old Town",
+    "address": "Groenplaats 32, 2000 Antwerp, Belgium",
+    "wifi": {
+      "ssid": "Hilton_Conference",
+      "pass": "ZDesign2026"
+    },
+    "announcements": [
+      {
+        "id": 1,
+        "title": "Welcome to Antwerp!",
+        "text": "Registration & badge pickup is open in the Ballroom Foyer until 6:00 PM.",
+        "time": "Sunday 3:00 PM"
+      },
+      {
+        "id": 2,
+        "title": "Group Dinner Location",
+        "text": "Wednesday Group Dinner departs from the hotel lobby at 6:30 PM sharp.",
+        "time": "Monday 9:00 AM"
+      }
+    ]
+  },
+  "sessions": [
+    {
+      "id": "SESS-1",
+      "day": "Sunday",
+      "date": "2026-10-18",
+      "startTime": "15:00",
+      "endTime": "16:00",
+      "timeRange": "15:00 – 16:00",
+      "type": "Registration",
+      "track": "General",
+      "title": "Registration",
+      "description": "Interactive session for IBM Z Design Council attendees.",
+      "speaker": "",
+      "room": "Ballroom Foyer",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-2",
+      "day": "Sunday",
+      "date": "2026-10-18",
+      "startTime": "16:00",
+      "endTime": "17:00",
+      "timeRange": "16:00 – 17:00",
+      "type": "General Session",
+      "track": "General",
+      "title": "Introduction to the ZDC",
+      "description": "An introduction to the IBM Z Design Council",
+      "speaker": "Jeff Neely, Rick Schoonmaker",
+      "room": "Belle Epoque Ballroom",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-3",
+      "day": "Sunday",
+      "date": "2026-10-18",
+      "startTime": "17:00",
+      "endTime": "18:00",
+      "timeRange": "17:00 – 18:00",
+      "type": "Networking",
+      "track": "General",
+      "title": "Reception",
+      "description": "Interactive session for IBM Z Design Council attendees.",
+      "speaker": "",
+      "room": "Ballroom Foyer",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-4",
+      "day": "Monday",
+      "date": "2026-10-19",
+      "startTime": "08:30",
+      "endTime": "09:00",
+      "timeRange": "08:30 – 09:00",
+      "type": "General Session",
+      "track": "General",
+      "title": "Welcome & Plan for the Week",
+      "description": "Interactive session for IBM Z Design Council attendees.",
+      "speaker": "Jeff Neely, Rick Schoonmaker",
+      "room": "Belle Epoque Ballroom",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-5",
+      "day": "Monday",
+      "date": "2026-10-19",
+      "startTime": "09:00",
+      "endTime": "09:30",
+      "timeRange": "09:00 – 09:30",
+      "type": "General Session",
+      "track": "General",
+      "title": "AI on IBM Z: From Transactional Intelligence to agentic workflows",
+      "description": "IBM Z clients are embedding AI directly into the world's most critical business transactions — deploying real-time fraud detection, credit scoring, and next-best-action recommendations at the point of transaction, all where the data already lives. Leading enterprises are now going further, building agentic workflows that reason, plan, and act across enterprise systems to automate complex, multi-step business processes with minimal human intervention. This session explores how IBM Z clients are solving real business problems across the full AI spectrum, includes best practices and lessons learned, and highlights why IBM Z is uniquely positioned as the secure, resilient, AI-ready platform at the center of the enterprise.",
+      "speaker": "Purvi Patel",
+      "room": "Belle Epoque Ballroom",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-6",
+      "day": "Monday",
+      "date": "2026-10-19",
+      "startTime": "09:30",
+      "endTime": "10:00",
+      "timeRange": "09:30 – 10:00",
+      "type": "Break",
+      "track": "Break & Social",
+      "title": "Break",
+      "description": "Interactive session for IBM Z Design Council attendees.",
+      "speaker": "",
+      "room": "Ballroom Foyer",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-7",
+      "day": "Monday",
+      "date": "2026-10-19",
+      "startTime": "10:00",
+      "endTime": "12:00",
+      "timeRange": "10:00 – 12:00",
+      "type": "Collaborative Session",
+      "track": "Application/Infrastructure",
+      "title": "IBM Z Atlas: Understand, orchestrate and prove IBM Z changes with confidence.",
+      "description": "Design Thinking Activities",
+      "speaker": "Roger Bales, Andrew",
+      "room": "Shah",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-8",
+      "day": "Monday",
+      "date": "2026-10-19",
+      "startTime": "10:00",
+      "endTime": "12:00",
+      "timeRange": "10:00 – 12:00",
+      "type": "Collaborative Session",
+      "track": "Application",
+      "title": "From Analysis to Action: The Software Development Lifecycle with IBM Bob Premium Package for Z",
+      "description": "Design Thinking Activities",
+      "speaker": "Latrell Freeman, Joe Sayer",
+      "room": "Sancy",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-9",
+      "day": "Monday",
+      "date": "2026-10-19",
+      "startTime": "10:00",
+      "endTime": "12:00",
+      "timeRange": "10:00 – 12:00",
+      "type": "Collaborative Session",
+      "track": "Application/Data & AI",
+      "title": "AI-Powered Event Integration for IBM Z",
+      "description": "Design Thinking Activities",
+      "speaker": "Anubhuti Kaushik,  Daniel Martin, Stefanie Lauria",
+      "room": "Groenplaats 2",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-10",
+      "day": "Monday",
+      "date": "2026-10-19",
+      "startTime": "10:00",
+      "endTime": "12:00",
+      "timeRange": "10:00 – 12:00",
+      "type": "Collaborative Session",
+      "track": "Infrastructure/Data & AI",
+      "title": "Fit for Purpose Agentic AI for IBM Z",
+      "description": "Design Thinking Activities",
+      "speaker": "Ivan Dovgan, Jenee Hart",
+      "room": "Florentine",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-11",
+      "day": "Monday",
+      "date": "2026-10-19",
+      "startTime": "10:00",
+      "endTime": "12:00",
+      "timeRange": "10:00 – 12:00",
+      "type": "Collaborative Session",
+      "track": "Infrastructure",
+      "title": "Multiple Shared Pools",
+      "description": "Design Thinking Activities",
+      "speaker": "Ray Newsom, Charles Webb,  Don Spangler",
+      "room": "Groenplaats 3",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-12",
+      "day": "Monday",
+      "date": "2026-10-19",
+      "startTime": "10:00",
+      "endTime": "12:00",
+      "timeRange": "10:00 – 12:00",
+      "type": "Collaborative Session",
+      "track": "Data & AI",
+      "title": "Intelligent Database Operations",
+      "description": "Design Thinking Activities",
+      "speaker": "Sueli Almeida, Haakon Roberts, Shelley Brand",
+      "room": "Hope",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-13",
+      "day": "Monday",
+      "date": "2026-10-19",
+      "startTime": "10:00",
+      "endTime": "12:00",
+      "timeRange": "10:00 – 12:00",
+      "type": "Collaborative Session",
+      "track": "Security",
+      "title": "From Signals to Action",
+      "description": "Design Thinking Activities",
+      "speaker": "Bryan Childs, Madhu BA",
+      "room": "Groenplaats 1",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-14",
+      "day": "Monday",
+      "date": "2026-10-19",
+      "startTime": "12:00",
+      "endTime": "13:30",
+      "timeRange": "12:00 – 13:30",
+      "type": "Meal",
+      "track": "Break & Social",
+      "title": "Lunch",
+      "description": "Interactive session for IBM Z Design Council attendees.",
+      "speaker": "",
+      "room": "Hotel restaurant & Lijn",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-15",
+      "day": "Monday",
+      "date": "2026-10-19",
+      "startTime": "13:30",
+      "endTime": "15:30",
+      "timeRange": "13:30 – 15:30",
+      "type": "Collaborative Session",
+      "track": "Application/Infrastructure",
+      "title": "IBM Z Atlas: Understand, orchestrate and prove IBM Z changes with confidence.",
+      "description": "Design Thinking Activities",
+      "speaker": "Roger Bales, Andrew",
+      "room": "Shah",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-16",
+      "day": "Monday",
+      "date": "2026-10-19",
+      "startTime": "13:30",
+      "endTime": "15:30",
+      "timeRange": "13:30 – 15:30",
+      "type": "Collaborative Session",
+      "track": "Application",
+      "title": "From Analysis to Action: The Software Development Lifecycle with IBM Bob Premium Package for Z",
+      "description": "Design Thinking Activities",
+      "speaker": "Latrell Freeman, Joe Sayer",
+      "room": "Sancy",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-17",
+      "day": "Monday",
+      "date": "2026-10-19",
+      "startTime": "13:30",
+      "endTime": "15:30",
+      "timeRange": "13:30 – 15:30",
+      "type": "Collaborative Session",
+      "track": "Application/Data & AI",
+      "title": "AI-Powered Event Integration for IBM Z",
+      "description": "Design Thinking Activities",
+      "speaker": "Anubhuti Kaushik,  Daniel Martin, Stefanie Lauria",
+      "room": "Groenplaats 2",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-18",
+      "day": "Monday",
+      "date": "2026-10-19",
+      "startTime": "13:30",
+      "endTime": "15:30",
+      "timeRange": "13:30 – 15:30",
+      "type": "Collaborative Session",
+      "track": "Infrastructure/Data & AI",
+      "title": "Fit for Purpose Agentic AI for IBM Z",
+      "description": "Design Thinking Activities",
+      "speaker": "Ivan Dovgan, Jenee Hart",
+      "room": "Florentine",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-19",
+      "day": "Monday",
+      "date": "2026-10-19",
+      "startTime": "13:30",
+      "endTime": "15:30",
+      "timeRange": "13:30 – 15:30",
+      "type": "Collaborative Session",
+      "track": "Infrastructure",
+      "title": "Multiple Shared Pools",
+      "description": "Design Thinking Activities",
+      "speaker": "Ray Newsom, Charles Webb,  Don Spangler",
+      "room": "Groenplaats 3",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-20",
+      "day": "Monday",
+      "date": "2026-10-19",
+      "startTime": "13:30",
+      "endTime": "15:30",
+      "timeRange": "13:30 – 15:30",
+      "type": "Collaborative Session",
+      "track": "Data & AI",
+      "title": "Intelligent Database Operations",
+      "description": "Design Thinking Activities",
+      "speaker": "Sueli Almeida, Haakon Roberts, Shelley Brand",
+      "room": "Hope",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-21",
+      "day": "Monday",
+      "date": "2026-10-19",
+      "startTime": "13:30",
+      "endTime": "15:30",
+      "timeRange": "13:30 – 15:30",
+      "type": "Collaborative Session",
+      "track": "Security",
+      "title": "From Signals to Action",
+      "description": "Design Thinking Activities",
+      "speaker": "Bryan Childs, Madhu BA",
+      "room": "Groenplaats 1",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-22",
+      "day": "Monday",
+      "date": "2026-10-19",
+      "startTime": "15:30",
+      "endTime": "16:00",
+      "timeRange": "15:30 – 16:00",
+      "type": "Break",
+      "track": "Break & Social",
+      "title": "Break",
+      "description": "Interactive session for IBM Z Design Council attendees.",
+      "speaker": "",
+      "room": "Ballroom Foyer",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-23",
+      "day": "Monday",
+      "date": "2026-10-19",
+      "startTime": "16:00",
+      "endTime": "16:15",
+      "timeRange": "16:00 – 16:15",
+      "type": "General Session",
+      "track": "General",
+      "title": "Flex Time Kickoff",
+      "description": "Interactive session for IBM Z Design Council attendees.",
+      "speaker": "Jeff Neely, Rick Schoonmaker",
+      "room": "Belle Epoque Ballroom",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-24",
+      "day": "Monday",
+      "date": "2026-10-19",
+      "startTime": "16:15",
+      "endTime": "17:00",
+      "timeRange": "16:15 – 17:00",
+      "type": "Client Roundtable",
+      "track": "General",
+      "title": "Generic Data Architecture, Data Discovery on Z",
+      "description": "During this roundtable, we will explore methods for discovering z/OS assets and their high-level configurations. By establishing comprehensive asset visibility, support teams can proactively identify exposures, misconfigurations, and deprecated components to strengthen overall z/OS system resilience and security.",
+      "speaker": "Sueli Almeida, Andrew Sica",
+      "room": "Belle Epoque Ballroom",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-25",
+      "day": "Monday",
+      "date": "2026-10-19",
+      "startTime": "16:15",
+      "endTime": "17:00",
+      "timeRange": "16:15 – 17:00",
+      "type": "Client Roundtable",
+      "track": "General",
+      "title": "The Frontier Model Era: Transforming the IBM Z Security Landscape",
+      "description": "Frontier AI models are reshaping the enterprise security landscape, creating new opportunities and risks for organizations running mission-critical workloads on IBM Z. In this panel, we will share Rabobank's perspectives on the evolution of frontier models, key security concerns, and emerging governance requirements. The discussion will explore the growing need for AI-driven vulnerability scanning, approaches to planning and prioritizing IBM security patches, and how continuous security monitoring strengthens governance, auditability, and developer professional’s accountability. Join us to learn how leading enterprises are adapting their IBM Z security strategies to stay resilient in the age of AI.",
+      "speaker": "Pradeep Parameshwaran",
+      "room": "Teun",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-26",
+      "day": "Monday",
+      "date": "2026-10-19",
+      "startTime": "16:15",
+      "endTime": "19:00",
+      "timeRange": "16:15 – 19:00",
+      "type": "Z Design Fair",
+      "track": "General",
+      "title": "IBM Z Atlas: Understand, orchestrate and prove IBM Z changes with confidence.",
+      "description": "See IBM Atlas in action as it discovers and maps relationships across your IT environment, from hardware and operating systems to middleware, software, and business applications. Through a live demonstration, attendees will explore Atlas’s dynamic topology visualization and AI-powered chat experience, enabling users to quickly understand dependencies, answer environment questions, and gain actionable insights. Learn how organizations are leveraging Atlas for change management, audit readiness, application refactoring, business service mapping, and drift detection, while also helping shape the future of the platform through direct feedback.",
+      "speaker": "Meghan McGrath",
+      "room": "Ballroom Foyer",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-27",
+      "day": "Monday",
+      "date": "2026-10-19",
+      "startTime": "16:15",
+      "endTime": "19:00",
+      "timeRange": "16:15 – 19:00",
+      "type": "Z Design Fair",
+      "track": "General",
+      "title": "Would You Trust an AI Agent With This?",
+      "description": "Experience Agentic AI in action within IBM Concert for Z and see how AI can accelerate problem determination by analyzing system signals, identifying likely causes, gathering evidence, and recommending next steps. Then cast your vote: which step in the problem determination process would you most want an AI agent to take off your plate?",
+      "speaker": "Jenee Hart",
+      "room": "Ballroom Foyer",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-28",
+      "day": "Monday",
+      "date": "2026-10-19",
+      "startTime": "16:15",
+      "endTime": "19:00",
+      "timeRange": "16:15 – 19:00",
+      "type": "Z Design Fair",
+      "track": "General",
+      "title": "IBM Vault Premium Package for z/OS: native certificate and secrets management",
+      "description": "Experience a comprehensive approach to credential governance on IBM Z with IBM Vault Premium Package for z/OS, which brings certificate lifecycle automation, secrets discovery, and encryption key orchestration together in a single, policy-driven package. Security administrators gain automated rotation for RACF-managed TLS certificates, a centralized encrypted system of record that surfaces unmanaged secrets across z/OS datasets and USS file shares, and unified key governance spanning on-premises z/OS systems and major public cloud environments. The package replaces a fragmented assembly of separate tools with one entitlement and one consistent policy model—enabling every credential across the IBM Z estate to be discovered, automated, and governed. Customers will be able to view and comment on a demo of end-to-end certificate management in z/OS RACF.",
+      "speaker": "Chris Brynes",
+      "room": "Ballroom Foyer",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-29",
+      "day": "Monday",
+      "date": "2026-10-19",
+      "startTime": "16:15",
+      "endTime": "19:00",
+      "timeRange": "16:15 – 19:00",
+      "type": "Z Design Fair",
+      "track": "General",
+      "title": "Software Management-as-Code - IBM Z Install",
+      "description": "Experience a hands-on demonstration of IBM Z Install and see how software management can be transformed through a GitOps-driven, software management-as-code approach. Attendees will explore a prototype that uses standard repositories to configure, deploy, and track z/OS software across partitions, providing a centralized inventory of what is installed, where it is running, and how it was deployed.",
+      "speaker": "",
+      "room": "Main Ballroom",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-30",
+      "day": "Monday",
+      "date": "2026-10-19",
+      "startTime": "16:15",
+      "endTime": "19:00",
+      "timeRange": "16:15 – 19:00",
+      "type": "Z Design Fair",
+      "track": "General",
+      "title": "IBM Project Polaris Tech Preview 2.0 and Beyond",
+      "description": "Explore how IBM Project Polaris is extending As-Code practices across z/OS, moving beyond isolated configuration tasks to support Networking, Storage Management, Workload Manager (WLM), and other core system domains. Through a hands-on demonstration, attendees will see how configurations and policies can be defined, validated, and managed using modern workflows, with guidance from intelligent automation and agentic AI.",
+      "speaker": "",
+      "room": "Main Ballroom",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-31",
+      "day": "Monday",
+      "date": "2026-10-19",
+      "startTime": "16:15",
+      "endTime": "19:00",
+      "timeRange": "16:15 – 19:00",
+      "type": "Z Design Fair",
+      "track": "General",
+      "title": "Workload Expansion: The Future of IBM Z and LinuxONE",
+      "description": "As organizations seek to modernize and consolidate more workloads within their existing data center footprint, the IBM Z ecosystem is evolving to support new architectures, deployment models, and development patterns. This interactive exhibit explores IBM’s vision for a more secure, scalable, and versatile platform, highlighting how emerging technologies—including architectures such as ARM—can complement traditional workloads and create new opportunities for innovation on IBM Z.",
+      "speaker": "",
+      "room": "Main Ballroom",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-32",
+      "day": "Monday",
+      "date": "2026-10-19",
+      "startTime": "16:15",
+      "endTime": "19:00",
+      "timeRange": "16:15 – 19:00",
+      "type": "Z Design Fair",
+      "track": "General",
+      "title": "From Client Configuration Data to Simplification Signals",
+      "description": "The IBM Z Configuration Collection Program demonstrates how real-world client configuration data can be used to identify opportunities for simplification across the platform. This exhibit showcases how IBM has analyzed customer configuration data and identified a subset of configuration settings as candidates for simplification, helping teams better understand where complexity exists and where focused improvements may provide the greatest value.",
+      "speaker": "",
+      "room": "Main Ballroom",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-33",
+      "day": "Monday",
+      "date": "2026-10-19",
+      "startTime": "16:15",
+      "endTime": "19:00",
+      "timeRange": "16:15 – 19:00",
+      "type": "Z Design Fair",
+      "track": "General",
+      "title": "What Is Your Mainframe Not Telling You?",
+      "description": "Experience Confluent for Z in action and see how IBM Z event streaming through Confluent for Z turns your mainframe from a silent system of record into a real-time source of business events. Through a live demonstration, watch connectors capture activity across CICS, IMS, Db2, and MQ and stream it — as it happens — into the Kafka topics. See how AI agentic accelerators can be used to easily work with the connectors.This booth explores how enterprises can finally make trusted mainframe data available to the AI and decision engines that need it most, closing the long-standing gap between where transactions actually happen and where real-time insight is required. Attendees will gain insight into practical connector-led integration and agentic acceleration patterns while helping shape the future direction of Confluent for Z portfolio using AI capabilities.Visitors will also participate in an interactive activity to identify which real-time business signals matter most to their organizations and where streaming, event processing, and governance can deliver the greatest value. The experience highlights how event-driven architectures, AI-assisted workflows, and real-time insight can help enterprises move beyond monitoring individual transactions to detecting and responding to emerging business conditions as they happen.",
+      "speaker": "Anubhuti Kaushik",
+      "room": "Ballroom Foyer",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-34",
+      "day": "Monday",
+      "date": "2026-10-19",
+      "startTime": "18:00",
+      "endTime": "19:00",
+      "timeRange": "18:00 – 19:00",
+      "type": "Networking",
+      "track": "General",
+      "title": "Reception",
+      "description": "Interactive session for IBM Z Design Council attendees.",
+      "speaker": "",
+      "room": "Ballroom Foyer",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-35",
+      "day": "Monday",
+      "date": "2026-10-19",
+      "startTime": "19:30",
+      "endTime": "21:30",
+      "timeRange": "19:30 – 21:30",
+      "type": "Meal",
+      "track": "Break & Social",
+      "title": "Onsite dinners by reservation only",
+      "description": "Reserved for specific clients.",
+      "speaker": "",
+      "room": "Blend 32 restaurant",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-36",
+      "day": "Tuesday",
+      "date": "2026-10-20",
+      "startTime": "08:30",
+      "endTime": "09:30",
+      "timeRange": "08:30 – 09:30",
+      "type": "General Session",
+      "track": "General",
+      "title": "Opening Keynote - Designing the Future of Computing - Towards a Quantum Centric Super Computing paradigm",
+      "description": "Computing is entering a new era. For decades, progress has been driven by making classical systems faster, more powerful and more efficient. Today, however, some of the most important problems in science, industry and society are pushing against fundamental computational limits.",
+      "speaker": "",
+      "room": "Main Ballroom",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-37",
+      "day": "Tuesday",
+      "date": "2026-10-20",
+      "startTime": "09:30",
+      "endTime": "10:00",
+      "timeRange": "09:30 – 10:00",
+      "type": "Break",
+      "track": "Break & Social",
+      "title": "Break",
+      "description": "Interactive session for IBM Z Design Council attendees.",
+      "speaker": "",
+      "room": "Main Ballroom",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-38",
+      "day": "Tuesday",
+      "date": "2026-10-20",
+      "startTime": "10:00",
+      "endTime": "12:00",
+      "timeRange": "10:00 – 12:00",
+      "type": "Collaborative Session",
+      "track": "Application/Infrastructure",
+      "title": "IBM Z Atlas: Understand, orchestrate and prove IBM Z changes with confidence.",
+      "description": "Design Thinking Activities",
+      "speaker": "Roger Bales, Andrew",
+      "room": "Shah",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-39",
+      "day": "Tuesday",
+      "date": "2026-10-20",
+      "startTime": "10:00",
+      "endTime": "12:00",
+      "timeRange": "10:00 – 12:00",
+      "type": "Collaborative Session",
+      "track": "Application",
+      "title": "From Analysis to Action: The Software Development Lifecycle with IBM Bob Premium Package for Z",
+      "description": "Design Thinking Activities",
+      "speaker": "Latrell Freeman, Joe Sayer",
+      "room": "Sancy",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-40",
+      "day": "Tuesday",
+      "date": "2026-10-20",
+      "startTime": "10:00",
+      "endTime": "12:00",
+      "timeRange": "10:00 – 12:00",
+      "type": "Collaborative Session",
+      "track": "Application/Data & AI",
+      "title": "AI-Powered Event Integration for IBM Z",
+      "description": "Design Thinking Activities",
+      "speaker": "Anubhuti Kaushik,  Daniel Martin, Stefanie Lauria",
+      "room": "Groenplaats 2",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-41",
+      "day": "Tuesday",
+      "date": "2026-10-20",
+      "startTime": "10:00",
+      "endTime": "12:00",
+      "timeRange": "10:00 – 12:00",
+      "type": "Collaborative Session",
+      "track": "Infrastructure/Data & AI",
+      "title": "Fit for Purpose Agentic AI for IBM Z",
+      "description": "Design Thinking Activities",
+      "speaker": "Ivan Dovgan, Jenee Hart",
+      "room": "Florentine",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-42",
+      "day": "Tuesday",
+      "date": "2026-10-20",
+      "startTime": "10:00",
+      "endTime": "12:00",
+      "timeRange": "10:00 – 12:00",
+      "type": "Collaborative Session",
+      "track": "Infrastructure",
+      "title": "Multiple Shared Pools",
+      "description": "Design Thinking Activities",
+      "speaker": "Ray Newsom, Charles Webb,  Don Spangler",
+      "room": "Groenplaats 3",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-43",
+      "day": "Tuesday",
+      "date": "2026-10-20",
+      "startTime": "10:00",
+      "endTime": "12:00",
+      "timeRange": "10:00 – 12:00",
+      "type": "Collaborative Session",
+      "track": "Data & AI",
+      "title": "Intelligent Database Operations",
+      "description": "Design Thinking Activities",
+      "speaker": "Sueli Almeida, Haakon Roberts, Shelley Brand",
+      "room": "Hope",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-44",
+      "day": "Tuesday",
+      "date": "2026-10-20",
+      "startTime": "10:00",
+      "endTime": "12:00",
+      "timeRange": "10:00 – 12:00",
+      "type": "Collaborative Session",
+      "track": "Security",
+      "title": "From Signals to Action",
+      "description": "Design Thinking Activities",
+      "speaker": "Bryan Childs, Madhu BA",
+      "room": "Groenplaats 1",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-45",
+      "day": "Tuesday",
+      "date": "2026-10-20",
+      "startTime": "12:00",
+      "endTime": "13:30",
+      "timeRange": "12:00 – 13:30",
+      "type": "Meal",
+      "track": "Break & Social",
+      "title": "Lunch",
+      "description": "Interactive session for IBM Z Design Council attendees.",
+      "speaker": "",
+      "room": "Restaurant & Lijn",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-46",
+      "day": "Tuesday",
+      "date": "2026-10-20",
+      "startTime": "13:30",
+      "endTime": "15:30",
+      "timeRange": "13:30 – 15:30",
+      "type": "Collaborative Session",
+      "track": "Application/Infrastructure",
+      "title": "IBM Z Atlas: Understand, orchestrate and prove IBM Z changes with confidence.",
+      "description": "Design Thinking Activities",
+      "speaker": "Roger Bales, Andrew",
+      "room": "Shah",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-47",
+      "day": "Tuesday",
+      "date": "2026-10-20",
+      "startTime": "13:30",
+      "endTime": "15:30",
+      "timeRange": "13:30 – 15:30",
+      "type": "Collaborative Session",
+      "track": "Application",
+      "title": "From Analysis to Action: The Software Development Lifecycle with IBM Bob Premium Package for Z",
+      "description": "Design Thinking Activities",
+      "speaker": "Latrell Freeman, Joe Sayer",
+      "room": "Sancy",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-48",
+      "day": "Tuesday",
+      "date": "2026-10-20",
+      "startTime": "13:30",
+      "endTime": "15:30",
+      "timeRange": "13:30 – 15:30",
+      "type": "Collaborative Session",
+      "track": "Application/Data & AI",
+      "title": "AI-Powered Event Integration for IBM Z",
+      "description": "Design Thinking Activities",
+      "speaker": "Anubhuti Kaushik,  Daniel Martin, Stefanie Lauria",
+      "room": "Groenplaats 2",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-49",
+      "day": "Tuesday",
+      "date": "2026-10-20",
+      "startTime": "13:30",
+      "endTime": "15:30",
+      "timeRange": "13:30 – 15:30",
+      "type": "Collaborative Session",
+      "track": "Infrastructure/Data & AI",
+      "title": "Fit for Purpose Agentic AI for IBM Z",
+      "description": "Design Thinking Activities",
+      "speaker": "Ivan Dovgan, Jenee Hart",
+      "room": "Florentine",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-50",
+      "day": "Tuesday",
+      "date": "2026-10-20",
+      "startTime": "13:30",
+      "endTime": "15:30",
+      "timeRange": "13:30 – 15:30",
+      "type": "Collaborative Session",
+      "track": "Infrastructure",
+      "title": "Multiple Shared Pools",
+      "description": "Design Thinking Activities",
+      "speaker": "Ray Newsom, Charles Webb,  Don Spangler",
+      "room": "Groenplaats 3",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-51",
+      "day": "Tuesday",
+      "date": "2026-10-20",
+      "startTime": "13:30",
+      "endTime": "15:30",
+      "timeRange": "13:30 – 15:30",
+      "type": "Collaborative Session",
+      "track": "Data & AI",
+      "title": "Intelligent Database Operations",
+      "description": "Design Thinking Activities",
+      "speaker": "Sueli Almeida, Haakon Roberts, Shelley Brand",
+      "room": "Hope",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-52",
+      "day": "Tuesday",
+      "date": "2026-10-20",
+      "startTime": "13:30",
+      "endTime": "15:30",
+      "timeRange": "13:30 – 15:30",
+      "type": "Collaborative Session",
+      "track": "Security",
+      "title": "From Signals to Action",
+      "description": "Design Thinking Activities",
+      "speaker": "Bryan Childs, Madhu BA",
+      "room": "Groenplaats 1",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-53",
+      "day": "Tuesday",
+      "date": "2026-10-20",
+      "startTime": "15:30",
+      "endTime": "16:00",
+      "timeRange": "15:30 – 16:00",
+      "type": "Break",
+      "track": "Break & Social",
+      "title": "Break",
+      "description": "Interactive session for IBM Z Design Council attendees.",
+      "speaker": "",
+      "room": "Ballroom Foyer",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-54",
+      "day": "Tuesday",
+      "date": "2026-10-20",
+      "startTime": "16:00",
+      "endTime": "17:00",
+      "timeRange": "16:00 – 17:00",
+      "type": "Solution Review",
+      "track": "Infrastructure",
+      "title": "Continuing IBM Z full-stack simplification – from complexity to code",
+      "description": "Interactive session for IBM Z Design Council attendees.",
+      "speaker": "",
+      "room": "Main Ballroom",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-55",
+      "day": "Tuesday",
+      "date": "2026-10-20",
+      "startTime": "17:00",
+      "endTime": "17:45",
+      "timeRange": "17:00 – 17:45",
+      "type": "Client Experience",
+      "track": "General",
+      "title": "Reimagining Mainframe Engineering Across the Stack",
+      "description": "ABN AMRO and Atruvia will share how they are modernizing mainframe engineering across the full stack using DevOps, CI/CD, GitOps, and industry-standard tooling.",
+      "speaker": "",
+      "room": "Main Ballroom",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-56",
+      "day": "Tuesday",
+      "date": "2026-10-20",
+      "startTime": "18:30",
+      "endTime": "19:00",
+      "timeRange": "18:30 – 19:00",
+      "type": "Transportation",
+      "track": "General",
+      "title": "Depart for Council Dinner",
+      "description": "Shuttle buses will be available",
+      "speaker": "",
+      "room": "Hotel lobby",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-57",
+      "day": "Tuesday",
+      "date": "2026-10-20",
+      "startTime": "19:00",
+      "endTime": "22:00",
+      "timeRange": "19:00 – 22:00",
+      "type": "Networking",
+      "track": "General",
+      "title": "Council Dinner",
+      "description": "Interactive session for IBM Z Design Council attendees.",
+      "speaker": "",
+      "room": "Botanic Sanctuary Antwerp",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-58",
+      "day": "Wednesday",
+      "date": "2026-10-21",
+      "startTime": "09:30",
+      "endTime": "10:30",
+      "timeRange": "09:30 – 10:30",
+      "type": "Client Experience",
+      "track": "General",
+      "title": "Managing my Db2 & IMS systems with Z Database Assistant",
+      "description": "In this session, clients will share their early experience by modernizing their database system's management thru the agentic capability and natural language interfaces offered via the IBM Z Database Assistant.",
+      "speaker": "Sueli Almeida, Handelsbanken: Martin Alund",
+      "room": "Main Ballroom",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-59",
+      "day": "Wednesday",
+      "date": "2026-10-21",
+      "startTime": "10:30",
+      "endTime": "11:00",
+      "timeRange": "10:30 – 11:00",
+      "type": "Break",
+      "track": "Break & Social",
+      "title": "Break",
+      "description": "Interactive session for IBM Z Design Council attendees.",
+      "speaker": "",
+      "room": "Ballroom Foyer",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-60",
+      "day": "Wednesday",
+      "date": "2026-10-21",
+      "startTime": "11:00",
+      "endTime": "12:00",
+      "timeRange": "11:00 – 12:00",
+      "type": "General Session",
+      "track": "General",
+      "title": "The Future of IBM Z and LinuxONE: Security Simplification and Workload Expansion",
+      "description": "Interactive session for IBM Z Design Council attendees.",
+      "speaker": "",
+      "room": "Main Ballroom",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-61",
+      "day": "Wednesday",
+      "date": "2026-10-21",
+      "startTime": "12:00",
+      "endTime": "13:30",
+      "timeRange": "12:00 – 13:30",
+      "type": "Meal",
+      "track": "Break & Social",
+      "title": "Lunch",
+      "description": "Interactive session for IBM Z Design Council attendees.",
+      "speaker": "",
+      "room": "Restaurant & Lijn",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-62",
+      "day": "Wednesday",
+      "date": "2026-10-21",
+      "startTime": "13:30",
+      "endTime": "14:15",
+      "timeRange": "13:30 – 14:15",
+      "type": "Solution Review",
+      "track": "Application",
+      "title": "Streamlining COBOL Modernization with IBM COBOL Elevate for z/OS",
+      "description": "Enterprise clients face fragmentedCOBOL modernization workflowsrequiring many hours of setup,specialized skills, and manualcoordination across compilerupgrades, performance analysis, andoptimization.This complexity delays modernizationinitiatives and increases technicaldebt.IBM COBOL Elevate for z/OSstreamlines the entire process with anintegrated, end-to-end modernizationexperience that accelerates COBOLapplication performance, upgradesCOBOL compiler versions, andgenerates actionable modernizationinsights—all within a unified platformbuilt for speed and simplicity.",
+      "speaker": "Reid Copeland",
+      "room": "Teun",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-63",
+      "day": "Wednesday",
+      "date": "2026-10-21",
+      "startTime": "13:30",
+      "endTime": "14:15",
+      "timeRange": "13:30 – 14:15",
+      "type": "Solution Review",
+      "track": "Infrastructure",
+      "title": "Project Polaris Roadmap: Leading to the z/OS Next GA Experience",
+      "description": "Project Polaris is shaping the z/OS NextGA experience by moving z/OSmanagement toward a simplified, As-Code, AI-assisted model. This briefingwill show the roadmap leading to z/OSNext GA, highlighting key configurationupdates across a staged model:bringing up a minimal z/OS system,enabling Polaris on top of that basesystem, and expanding toward abootable, standard z/OS imagemanaged through Configuration-as-Code.Specific focus areas include a morecomplete As-Code configuration picturebeyond parmlibs, including WLM,storage, and networking; activeconfiguration/current-state awareness;and agentic assistance to help Chrisunderstand settings, validate changes,and build confidence.",
+      "speaker": "Andrew Sica",
+      "room": "Belle Epoque Ballroom",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-64",
+      "day": "Wednesday",
+      "date": "2026-10-21",
+      "startTime": "13:30",
+      "endTime": "14:15",
+      "timeRange": "13:30 – 14:15",
+      "type": "Solution Review",
+      "track": "Data & AI",
+      "title": "Z Database Assistant Update and Journey",
+      "description": "IBM Z Database Assistant delivers aunified, intelligent workspace poweredby agentic AI to augment databaseadministrators (DBAs) across IMS andDb2 for z/OS environments.In this session, we will provide an updateon the evolution of IBM Z DatabaseAssistant since the June GA release andengage the Council for feedback.The session will cover both IMS and Db2perspectives, including:• Enhancements to core capabilitiesbased on feedback in 2Q.• Sponsor user feedback, particularlyaround installation and configurationexperience• Progress on tooling integration,including key priorities and upcominginvestments• Updates to Db2 distributedconnection management, includingrecent enhancements",
+      "speaker": "Sueli Almeida",
+      "room": "Sancy",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-65",
+      "day": "Wednesday",
+      "date": "2026-10-21",
+      "startTime": "13:30",
+      "endTime": "14:15",
+      "timeRange": "13:30 – 14:15",
+      "type": "Solution Review",
+      "track": "Security",
+      "title": "Part 1: IBM Z Security Transformation",
+      "description": "As AI and frontier models accelerate the speed, scale, and sophistication of cyber threats, organizations can no longer rely on isolated controls or human speed response. This Part 1 IBM ZDC session explores IBM Z's security transformation strategy across the entire hardware and software stack, delivering continuous protection throughout the application, data, and platform lifecycle. Attendees will gain insight into a full stack, NIST aligned approach that integrates security, compliance, cyber resilience, and AI-driven automation to identify, protect, detect, respond, and recover at system speed.",
+      "speaker": "Bryan Childs",
+      "room": "Main Ballroom",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-66",
+      "day": "Wednesday",
+      "date": "2026-10-21",
+      "startTime": "14:30",
+      "endTime": "15:30",
+      "timeRange": "14:30 – 15:30",
+      "type": "General Session",
+      "track": "General",
+      "title": "The Geometry of Intelligence",
+      "description": "In this talk we'll discuss the advances in the use of math, neuroscience, feedback mechanisms and perception and how this helps us build agentic systems.",
+      "speaker": "Donna Dillenberger",
+      "room": "Belle Epoque Ballroom",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-67",
+      "day": "Wednesday",
+      "date": "2026-10-21",
+      "startTime": "16:00",
+      "endTime": "16:45",
+      "timeRange": "16:00 – 16:45",
+      "type": "Solution Review",
+      "track": "Infrastructure",
+      "title": "Expedite problem diagnosis in Z Operations",
+      "description": "Review value provided to organizations when combining the algorithms from Concert for Z with the deep knowledge from IntelliMagic Vision. Review current state of the art and roadmap with end users.",
+      "speaker": "Domenico D'Alterio",
+      "room": "Belle Epoque Ballroom",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-68",
+      "day": "Wednesday",
+      "date": "2026-10-21",
+      "startTime": "16:00",
+      "endTime": "16:45",
+      "timeRange": "16:00 – 16:45",
+      "type": "Solution Review",
+      "track": "Application",
+      "title": "Bringing agentic workflows to CI/CD with IBM Pipeline Automation for Z to accelerate how apps are built, validated, and deployed",
+      "description": "Validate the implementation of cross-application dependencies support across build and deploy workflows​.",
+      "speaker": "",
+      "room": "Main Ballroom",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-69",
+      "day": "Wednesday",
+      "date": "2026-10-21",
+      "startTime": "16:00",
+      "endTime": "16:45",
+      "timeRange": "16:00 – 16:45",
+      "type": "Solution Review",
+      "track": "Security",
+      "title": "Part 2: New product innovation in IBM Z Security SW: A Briefing on portfolio simplification with comprehensive resiliency for the AI age",
+      "description": "Building on the strategic vision from Part 1, this deep dive session explores how IBM Z Security software transforms cyber resilience into measurable outcomes. Through IBM zSecure Secret Manager, zSecure Detection, zSecure Compliance, and the newly introduced zSecure Access, attendees will learn how to automate certificate lifecycle management, detect anomalous behavior at machine speed, maintain continuous compliance, and enforce least privilege access across z/OS environments. Together, these capabilities help reduce operational risk, accelerate threat response, simplify audit readiness, and strengthen resilience against AI driven attacks. Interactive discussions and readiness focused assessments will help participants benchmark their organization’s security maturity and cyber resilience posture.",
+      "speaker": "Madhu B A",
+      "room": "Tiffany",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-70",
+      "day": "Wednesday",
+      "date": "2026-10-21",
+      "startTime": "16:00",
+      "endTime": "16:45",
+      "timeRange": "16:00 – 16:45",
+      "type": "Solution Review",
+      "track": "Data & AI",
+      "title": "Out-of-the-box-AI",
+      "description": "AI that helps configure an IBM Z box upon delivery.",
+      "speaker": "",
+      "room": "Main Ballroom",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-71",
+      "day": "Wednesday",
+      "date": "2026-10-21",
+      "startTime": "17:00",
+      "endTime": "17:45",
+      "timeRange": "17:00 – 17:45",
+      "type": "Solution Review",
+      "track": "Data & AI",
+      "title": "Unlocking IBM Z Data for AI and Real-Time Decisioning",
+      "description": "Business focused innovation requires athoughtful data strategy. Factors effectingthis decision on where to maintain data onZ includes• Bring AI into the core• Build a Z-native event access layer thatsurfaces IBM Z data and applicationsignals into Kafka / Confluent, enablingtrusted, real-time business events forenterprise streaming architectures.This session focuses• How AI on Z can simplify interaction withcomplex enterprise data environments,accelerate analytical insights withoutmoving data off the platform, reduce thedependency on specialized technicalknowledge, semantic understanding,and AI-assisted exploration acrossstructured and unstructured enterprisedata.• How to form a business event refineryfor IBM Z that converts fragmentedsystem signals into trusted, actionablebusiness events.",
+      "speaker": "Daniel Martin",
+      "room": "Sancy",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-72",
+      "day": "Wednesday",
+      "date": "2026-10-21",
+      "startTime": "17:00",
+      "endTime": "17:45",
+      "timeRange": "17:00 – 17:45",
+      "type": "Solution Review",
+      "track": "Security",
+      "title": "Agentic Security",
+      "description": "Execution-capable AI agents introduce new z/OS privilege-management challenges because they can submit jobs, invoke APIs, modify resources, and delegate work. Traditional Identity and Access Management (IAM) is not enough; each action must be governed across its lifecycle and tied to identity, task intent, RACF enforcement, and audit reconstruction.",
+      "speaker": "",
+      "room": "Main Ballroom",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-73",
+      "day": "Wednesday",
+      "date": "2026-10-21",
+      "startTime": "17:00",
+      "endTime": "17:45",
+      "timeRange": "17:00 – 17:45",
+      "type": "Solution Review",
+      "track": "Infrastructure",
+      "title": "Agentic management of infrastructure resources in a sovereign compute environment",
+      "description": "As hybrid cloud and AI operating modelsevolve and dominate the IT landscape,enterprises require governed, auditable,sovereign, and policy-driven infrastructuremanagement across mission-criticalplatforms.This collaboration session will driveexploration and co-creation of the use-casesand roadmap for IBM Meridian for Z andLinuxONE. This is an agentic AI-drivenworkflow and knowledge engine platform thatenables intent-based infrastructuremanagement through discovery, simulation,and rehearsal. The collaborative workingsessions will explore how Meridian integrateswith Terraform as an accelerant forInfrastructure –as-Code transformation onIBM Z and LinuxONE. Additionally, anecosystem of IBM Z software and tools willalso be discussed for future integration.We also recognize that customers running IBMZ and LinuxONE environments face the needto modernize operations while maintainingstrict requirements for data sovereignty,compliance, and operational control. We willalso seek understanding of how IBM mustprovide mission-critical environments with thenecessary governance to ensure that AIagents contribute meaningfully, while nothallucinating or making changes that are notconsistent with policy",
+      "speaker": "Christopher Byrnes",
+      "room": "Belle Epoque Ballroom",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-74",
+      "day": "Wednesday",
+      "date": "2026-10-21",
+      "startTime": "17:00",
+      "endTime": "17:45",
+      "timeRange": "17:00 – 17:45",
+      "type": "Solution Review",
+      "track": "Data & AI",
+      "title": "Advancing Agentic AI Governance with Security, Traceability, and Transparency",
+      "description": "In this playback, we’ll present more insight on how governance - spanning transparency, traceability, accountability, and security - can be embedded into real-world Agentic AI systems.",
+      "speaker": "Madhu B A, Elpida Tzortzatos",
+      "room": "Teun",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-75",
+      "day": "Wednesday",
+      "date": "2026-10-21",
+      "startTime": "18:00",
+      "endTime": "19:00",
+      "timeRange": "18:00 – 19:00",
+      "type": "Networking",
+      "track": "General",
+      "title": "Reception",
+      "description": "Interactive session for IBM Z Design Council attendees.",
+      "speaker": "",
+      "room": "Ballroom Foyer",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-76",
+      "day": "Wednesday",
+      "date": "2026-10-21",
+      "startTime": "19:30",
+      "endTime": "21:30",
+      "timeRange": "19:30 – 21:30",
+      "type": "Meal",
+      "track": "Break & Social",
+      "title": "Onsite dinners by reservation only",
+      "description": "Reserved for specific clients.",
+      "speaker": "",
+      "room": "Blend 32 restaurant",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-77",
+      "day": "Thursday",
+      "date": "2026-10-22",
+      "startTime": "08:30",
+      "endTime": "09:00",
+      "timeRange": "08:30 – 09:00",
+      "type": "General Session",
+      "track": "General",
+      "title": "How IBM Bob is changing the game for mainframe developers",
+      "description": "AI is bringing massive change to software development across the technology world, but in the mainframe space - the bar is even higher. Organizations need AI that can handle applications that are highly complex, mission-critical, and  involve millions of lines of code and thousands of interconnected asssets.  The good news is that mainframe application teams are first class citizens in this AI evolution with IBM Bob!  At this session we will cover the key technologies and use cases that are available today with IBM Bob and the Premium Package for Z, and we will feature a client story from the IBM CIO team where they share how they are leveraging Bob within their mainframe application teams.",
+      "speaker": "Rich Larin",
+      "room": "Belle Epoque Ballroom",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-78",
+      "day": "Thursday",
+      "date": "2026-10-22",
+      "startTime": "09:00",
+      "endTime": "10:00",
+      "timeRange": "09:00 – 10:00",
+      "type": "Collaborative Session Playbacks",
+      "track": "General",
+      "title": "Collaborative Session Playbacks",
+      "description": "Team playback presentations",
+      "speaker": "",
+      "room": "Belle Epoque Ballroom",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-79",
+      "day": "Thursday",
+      "date": "2026-10-22",
+      "startTime": "10:00",
+      "endTime": "10:30",
+      "timeRange": "10:00 – 10:30",
+      "type": "Break",
+      "track": "Break & Social",
+      "title": "Break",
+      "description": "Interactive session for IBM Z Design Council attendees.",
+      "speaker": "",
+      "room": "Ballroom Foyer",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-80",
+      "day": "Thursday",
+      "date": "2026-10-22",
+      "startTime": "10:30",
+      "endTime": "11:30",
+      "timeRange": "10:30 – 11:30",
+      "type": "Collaborative Session Playbacks",
+      "track": "General",
+      "title": "Collaborative Session Playbacks",
+      "description": "Team playback presentations",
+      "speaker": "",
+      "room": "Belle Epoque Ballroom",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-81",
+      "day": "Thursday",
+      "date": "2026-10-22",
+      "startTime": "11:30",
+      "endTime": "12:00",
+      "timeRange": "11:30 – 12:00",
+      "type": "General Session",
+      "track": "General",
+      "title": "Final Wrap-up",
+      "description": "Interactive session for IBM Z Design Council attendees.",
+      "speaker": "Jeff Neely, Rick Schoonmaker",
+      "room": "Belle Epoque Ballroom",
+      "deckUrl": ""
+    },
+    {
+      "id": "SESS-82",
+      "day": "Thursday",
+      "date": "2026-10-22",
+      "startTime": "12:00",
+      "endTime": "13:30",
+      "timeRange": "12:00 – 13:30",
+      "type": "Meal",
+      "track": "Break & Social",
+      "title": "Lunch",
+      "description": "Interactive session for IBM Z Design Council attendees.",
+      "speaker": "",
+      "room": "Lijn & Tiffany/Shah",
+      "deckUrl": ""
+    }
+  ],
+  "directory": [
+    {
+      "id": "ATT-3",
+      "name": "Peter Heijblom",
+      "company": "ABN AMRO",
+      "rawCompany": "ABN AMRO",
+      "role": "Executive Sponsor",
+      "attendeeType": "Customer",
+      "email": "peter.heijblom@nl.abnamro.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-4",
+      "name": "Johan Meijer",
+      "company": "ABN AMRO",
+      "rawCompany": "ABN AMRO",
+      "role": "Infrastructure Architect",
+      "attendeeType": "Customer",
+      "email": "johan.meijer@nl.abnamro.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-5",
+      "name": "Marcel van Ree",
+      "company": "ABN AMRO",
+      "rawCompany": "ABN AMRO",
+      "role": "Platform Engineer",
+      "attendeeType": "Customer",
+      "email": "marcel.van.ree@nl.abnamro.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-8",
+      "name": "Jorn Fledelius",
+      "company": "American Express",
+      "rawCompany": "American Express",
+      "role": "Data and AI Architect",
+      "attendeeType": "Customer",
+      "email": "jorn.n.fledelius@aexp.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-10",
+      "name": "Dennis Katz",
+      "company": "Atruvia",
+      "rawCompany": "Atruvia",
+      "role": "Data and AI Architect",
+      "attendeeType": "Customer",
+      "email": "dennis.katz@atruvia.de",
+      "avatar": "",
+      "mobileConsent": false
+    },
+    {
+      "id": "ATT-11",
+      "name": "Pascal Meyer",
+      "company": "Atruvia",
+      "rawCompany": "Atruvia",
+      "role": "Enterprise Architect",
+      "attendeeType": "Customer",
+      "email": "pascal.meyer@atruvia.de",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-13",
+      "name": "Alexander Straub",
+      "company": "Atruvia",
+      "rawCompany": "Atruvia",
+      "role": "Infrastructure Architect",
+      "attendeeType": "Customer",
+      "email": "alexander.straub@atruvia.de",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-14",
+      "name": "Alex Widak",
+      "company": "Atruvia",
+      "rawCompany": "Atruvia",
+      "role": "Data and AI Architect",
+      "attendeeType": "Customer",
+      "email": "Alexander.Widak@atruvia.de",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-15",
+      "name": "Redelf Janssen",
+      "company": "Atruvia",
+      "rawCompany": "IBM for Atruvia",
+      "role": "IBM Z Brand Technical Specialist",
+      "attendeeType": "IBM Rep",
+      "email": "Redelf.Janssen@de.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-17",
+      "name": "Oriol González",
+      "company": "Banc Sabadell",
+      "rawCompany": "Banc Sabadell",
+      "role": "Mainframe Architect",
+      "attendeeType": "Customer",
+      "email": "gonzalezoriol@bancsabadell.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-18",
+      "name": "Sergi Espriu Fernandez",
+      "company": "Banc Sabadell",
+      "rawCompany": "Banc Sabadell",
+      "role": "Infrastructure Architect",
+      "attendeeType": "Customer",
+      "email": "ESPRIUS@sabadelldigital.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-19",
+      "name": "Albert Balart",
+      "company": "Kyndryl for Banc Sabadell",
+      "rawCompany": "Kyndryl for Banc Sabadell",
+      "role": "Kyndryl for Banc Sabadell",
+      "attendeeType": "Kyndryl",
+      "email": "albert.balart.bardia@kyndryl.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-20",
+      "name": "Marc Riart",
+      "company": "Banc Sabadell",
+      "rawCompany": "IBM for Banc Sabadell",
+      "role": "IBM for Banc Sabadell",
+      "attendeeType": "IBM Rep",
+      "email": "marc_riart@es.ibm.com",
+      "avatar": "",
+      "mobileConsent": false
+    },
+    {
+      "id": "ATT-21",
+      "name": "Amelia Aroda",
+      "company": "Bank of Montreal",
+      "rawCompany": "Bank of Montreal",
+      "role": "Director EDB Mainframe Platforms",
+      "attendeeType": "Customer",
+      "email": "amelia.aroda@bmo.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-22",
+      "name": "Cindy Diaz Juarez",
+      "company": "Bank of Montreal",
+      "rawCompany": "Bank of Montreal",
+      "role": "Infrastructure Architect",
+      "attendeeType": "Customer",
+      "email": "cindy.diazjuarez@bmo.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-23",
+      "name": "Ihor Panczenko",
+      "company": "Bank of Montreal",
+      "rawCompany": "Bank of Montreal",
+      "role": "Senior Systems Support Specialist - Mainframe",
+      "attendeeType": "Customer",
+      "email": "ihor.panczenko@bmo.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-25",
+      "name": "Joey Tung",
+      "company": "Bank of Montreal",
+      "rawCompany": "Bank of Montreal",
+      "role": "Infrastructure Architect",
+      "attendeeType": "Customer",
+      "email": "joey.tung@bmo.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-26",
+      "name": "Shelley Whyte",
+      "company": "Bank of Montreal",
+      "rawCompany": "Bank of Montreal",
+      "role": "Executive Sponsor",
+      "attendeeType": "Customer",
+      "email": "Shelley.Whyte@bmo.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-28",
+      "name": "Craig Heppolette",
+      "company": "Barclays",
+      "rawCompany": "Barclays",
+      "role": "Head of Mainframe",
+      "attendeeType": "Customer",
+      "email": "craig.heppolette@barclays.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-29",
+      "name": "Russ Aylott",
+      "company": "Barclays",
+      "rawCompany": "Barclays",
+      "role": "Application Architect",
+      "attendeeType": "Customer",
+      "email": "russell.aylott@barclays.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-30",
+      "name": "Alan Farrell",
+      "company": "Barclays",
+      "rawCompany": "IBM for Barclays",
+      "role": "IBM for Barclays",
+      "attendeeType": "IBM Rep",
+      "email": "alan_farrell@uk.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-36",
+      "name": "Jordi Guillaumes Pons",
+      "company": "CaixaBank",
+      "rawCompany": "CaixaBank",
+      "role": "Application Architect",
+      "attendeeType": "Customer",
+      "email": "jguillaumes@caixabanktech.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-37",
+      "name": "Luis Estirado",
+      "company": "CaixaBank",
+      "rawCompany": "CaixaBank",
+      "role": "sysadmin",
+      "attendeeType": "Customer",
+      "email": "lestirado@itnow.es",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-38",
+      "name": "Izaskun Santisteban",
+      "company": "CaxiaBank",
+      "rawCompany": "IBM for CaxiaBank",
+      "role": "IBM for CaixaBank",
+      "attendeeType": "IBM Rep",
+      "email": "izaskun.santisteban.gomez@es.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-39",
+      "name": "Atanas Bogdanovski",
+      "company": "Citi",
+      "rawCompany": "Citi",
+      "role": "Application Architect",
+      "attendeeType": "Customer",
+      "email": "atanas.bogdanovski@citi.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-40",
+      "name": "Tim Haiar",
+      "company": "Citi",
+      "rawCompany": "Citi",
+      "role": "Infrastructure Architect",
+      "attendeeType": "Customer",
+      "email": "tim.haiar@citi.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-41",
+      "name": "Mandeep Kapoor",
+      "company": "Citi",
+      "rawCompany": "Citi",
+      "role": "Application Architect",
+      "attendeeType": "Customer",
+      "email": "mandeep.kapoor@citi.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-45",
+      "name": "Carsten Trebbien",
+      "company": "Danske Bank",
+      "rawCompany": "Danske Bank",
+      "role": "Infrastructure Architect",
+      "attendeeType": "Customer",
+      "email": "carsp@danskebank.dk",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-46",
+      "name": "Emma Skovgård",
+      "company": "Danske Bank",
+      "rawCompany": "Danske Bank",
+      "role": "Security Engineer / IT Archaeologist",
+      "attendeeType": "Customer",
+      "email": "emsko@danskebank.dk",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-47",
+      "name": "Toby Wardill",
+      "company": "Danske Bank",
+      "rawCompany": "Danske Bank",
+      "role": "Head of Mainframe Architecture",
+      "attendeeType": "Customer",
+      "email": "tjw@danskebank.dk",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-48",
+      "name": "Simon Coote",
+      "company": "Danske Bank",
+      "rawCompany": "IBM for Danske Bank",
+      "role": "zStack Client Architect",
+      "attendeeType": "IBM Rep",
+      "email": "coote@dk.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-49",
+      "name": "Tom Engler",
+      "company": "DATEV",
+      "rawCompany": "DATEV",
+      "role": "Infrastructure Architect",
+      "attendeeType": "Customer",
+      "email": "thomas.engler@datev.de",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-50",
+      "name": "Ina Krüger",
+      "company": "DATEV",
+      "rawCompany": "DATEV",
+      "role": "Application Architect",
+      "attendeeType": "Customer",
+      "email": "ina.krueger@datev.de",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-51",
+      "name": "Thomas Kraus",
+      "company": "DATEV",
+      "rawCompany": "IBM for DATEV",
+      "role": "IBM for DATEV",
+      "attendeeType": "IBM Rep",
+      "email": "thomas.kraus@de.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-53",
+      "name": "Georg Bülskämper",
+      "company": "Finanz Informatik",
+      "rawCompany": "Finanz Informatik",
+      "role": "Infrastructure Architect",
+      "attendeeType": "Customer",
+      "email": "georg.buelskaemper@f-i.de",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-55",
+      "name": "Fabian Sinagowitz",
+      "company": "Finanz Informatik",
+      "rawCompany": "Finanz Informatik",
+      "role": "Security Architect",
+      "attendeeType": "Customer",
+      "email": "fabian.sinagowitz@f-i.de",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-56",
+      "name": "Andreas Wagner",
+      "company": "Finanz Informatik",
+      "rawCompany": "Finanz Informatik",
+      "role": "Data and AI Architect",
+      "attendeeType": "Customer",
+      "email": "andreas1.wagner@f-i.de",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-57",
+      "name": "Christian Demmer",
+      "company": "Finanz Informatik",
+      "rawCompany": "IBM for Finanz Informatik",
+      "role": "IBM for Finanz Informatik",
+      "attendeeType": "IBM Rep",
+      "email": "christian.demmer@de.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-58",
+      "name": "Michael Jünemann",
+      "company": "FI-TS",
+      "rawCompany": "FI-TS",
+      "role": "Infrastructure Architect",
+      "attendeeType": "Customer",
+      "email": "Michael.Juenemann@f-i-ts.de",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-59",
+      "name": "Carsten Schmidt",
+      "company": "FI-TS",
+      "rawCompany": "FI-TS",
+      "role": "Security Architect",
+      "attendeeType": "Customer",
+      "email": "Carsten.Schmidt@f-i-ts.de",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-60",
+      "name": "Robert Stang",
+      "company": "FI-TS",
+      "rawCompany": "FI-TS",
+      "role": "Senior Architect Mainframe Databases/Middleware",
+      "attendeeType": "Customer",
+      "email": "Robert.Stang@f-i-ts.de",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-61",
+      "name": "Tobias Leicher",
+      "company": "FI-TS",
+      "rawCompany": "IBM for FI-TS",
+      "role": "IBM for FI-TS",
+      "attendeeType": "IBM Rep",
+      "email": "tobias.leicher@de.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-62",
+      "name": "Bill Baldwin",
+      "company": "FIS",
+      "rawCompany": "FIS",
+      "role": "VP Systems Operations & Administration",
+      "attendeeType": "Customer",
+      "email": "bill.baldwin@fisglobal.com",
+      "avatar": "",
+      "mobileConsent": false
+    },
+    {
+      "id": "ATT-63",
+      "name": "John Bell",
+      "company": "FIS",
+      "rawCompany": "FIS",
+      "role": "Application Architect",
+      "attendeeType": "Customer",
+      "email": "jobell@tsys.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-68",
+      "name": "Hulya Aktas",
+      "company": "Garanti BBVA",
+      "rawCompany": "Garanti BBVA",
+      "role": "Infrastructure Architect",
+      "attendeeType": "Customer",
+      "email": "hulyaakt@garantibbva.com.tr",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-69",
+      "name": "Semra Arslan",
+      "company": "Garanti BBVA",
+      "rawCompany": "Garanti BBVA",
+      "role": "Data and AI Architect",
+      "attendeeType": "Customer",
+      "email": "SemraArsl@garantibbva.com.tr",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-70",
+      "name": "Hakan Bali",
+      "company": "Garanti BBVA",
+      "rawCompany": "Garanti BBVA",
+      "role": "Application Architect",
+      "attendeeType": "Customer",
+      "email": "HakanBal@garantibbva.com.tr",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-78",
+      "name": "Martin Ålund",
+      "company": "Handelsbanken",
+      "rawCompany": "Handelsbanken",
+      "role": "Data and AI Architect",
+      "attendeeType": "Customer",
+      "email": "martin.alund@handelsbanken.se",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-79",
+      "name": "Oskar Korall",
+      "company": "Handelsbanken",
+      "rawCompany": "Handelsbanken",
+      "role": "DevOps engineer",
+      "attendeeType": "Customer",
+      "email": "oskar.korall@handelsbanken.se",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-80",
+      "name": "Thomas Olofsson",
+      "company": "Handelsbanken",
+      "rawCompany": "Handelsbanken",
+      "role": "Infrastructure Architect",
+      "attendeeType": "Customer",
+      "email": "thomas.b.olofsson@handelsbanken.se",
+      "avatar": "",
+      "mobileConsent": false
+    },
+    {
+      "id": "ATT-82",
+      "name": "Roger Rydberg",
+      "company": "Handelsbanken",
+      "rawCompany": "Handelsbanken",
+      "role": "Executive Sponsor",
+      "attendeeType": "Customer",
+      "email": "roger.rydberg@handelsbanken.se",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-84",
+      "name": "Jakob Tera",
+      "company": "Handelsbanken",
+      "rawCompany": "Handelsbanken",
+      "role": "Security Architect / System Programmer",
+      "attendeeType": "Customer",
+      "email": "jakob.tera@handelsbanken.se",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-85",
+      "name": "Erik Weyler",
+      "company": "Handelsbanken",
+      "rawCompany": "Handelsbanken",
+      "role": "Infrastructure Architect",
+      "attendeeType": "Customer",
+      "email": "erik.weyler@handelsbanken.se",
+      "avatar": "",
+      "mobileConsent": false
+    },
+    {
+      "id": "ATT-87",
+      "name": "Lars Åhlman",
+      "company": "Handelsbanken",
+      "rawCompany": "IBM for Handelsbanken",
+      "role": "IBM for Handelsbanken",
+      "attendeeType": "IBM Rep",
+      "email": "lars.ahlman@ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-96",
+      "name": "Adam Foley",
+      "company": "JPMorgan Chase",
+      "rawCompany": "JPMorgan Chase",
+      "role": "Infrastructure Architect",
+      "attendeeType": "Customer",
+      "email": "adam.j.foley@jpmchase.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-97",
+      "name": "Rohan Chauhan",
+      "company": "JPMorgan Chase",
+      "rawCompany": "JPMorgan Chase",
+      "role": "Infrastructure Director",
+      "attendeeType": "Customer",
+      "email": "rohan.x.chauhan@jpmchase.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-102",
+      "name": "Jonathan Feakin",
+      "company": "NatWest",
+      "rawCompany": "NatWest",
+      "role": "Enterprise Architect",
+      "attendeeType": "Customer",
+      "email": "jonathan.feakin@natwest.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-103",
+      "name": "Roy Hewitt",
+      "company": "NatWest",
+      "rawCompany": "NatWest",
+      "role": "Principle Engineer",
+      "attendeeType": "Customer",
+      "email": "roy.hewitt@natwest.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-107",
+      "name": "Niek de Greef",
+      "company": "Rabobank",
+      "rawCompany": "Rabobank",
+      "role": "IT Architect",
+      "attendeeType": "Customer",
+      "email": "niek.de.greef@rabobank.nl",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-108",
+      "name": "Erwin Klaus",
+      "company": "Rabobank",
+      "rawCompany": "Rabobank",
+      "role": "Service Owner System Z",
+      "attendeeType": "Customer",
+      "email": "erwin.klaus@rabobank.nl",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-109",
+      "name": "Ralph van Beek",
+      "company": "Rabobank",
+      "rawCompany": "Rabobank",
+      "role": "Application Architect",
+      "attendeeType": "Customer",
+      "email": "ralph.van.beek@rabobank.nl",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-111",
+      "name": "Henk van Dasler",
+      "company": "Rabobank",
+      "rawCompany": "Rabobank",
+      "role": "Executive Sponsor",
+      "attendeeType": "Customer",
+      "email": "Henk.van.Dasler@rabobank.nl",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-114",
+      "name": "Stefan Ekman",
+      "company": "SEB",
+      "rawCompany": "SEB",
+      "role": "Infrastructure Architect",
+      "attendeeType": "Customer",
+      "email": "stefan.ekman@seb.se",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-115",
+      "name": "Felix Sandvik",
+      "company": "SEB",
+      "rawCompany": "SEB",
+      "role": "Application Architect",
+      "attendeeType": "Customer",
+      "email": "felix.sandvik@seb.se",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-116",
+      "name": "Anton Sjölander",
+      "company": "SEB",
+      "rawCompany": "SEB",
+      "role": "Application Architect",
+      "attendeeType": "Customer",
+      "email": "anton.sjolander@seb.se",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-117",
+      "name": "Afshin Hosseinipad",
+      "company": "SEB",
+      "rawCompany": "SEB",
+      "role": "Application Architect",
+      "attendeeType": "Customer",
+      "email": "Afshin.hosseinipad@seb.se",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-120",
+      "name": "Wang Chen",
+      "company": "TD Bank",
+      "rawCompany": "TD Bank",
+      "role": "Executive Sponsor",
+      "attendeeType": "Customer",
+      "email": "wang.chen@td.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-122",
+      "name": "Mark Lakin",
+      "company": "TD Bank",
+      "rawCompany": "TD Bank",
+      "role": "Infrastructure Architect",
+      "attendeeType": "Customer",
+      "email": "mark.lakin@td.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-134",
+      "name": "Tom Lucey",
+      "company": "US Bank",
+      "rawCompany": "US Bank",
+      "role": "Data and AI Architect",
+      "attendeeType": "Customer",
+      "email": "thomas.lucey@usbank.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-135",
+      "name": "Kevin Wick",
+      "company": "US Bank",
+      "rawCompany": "US Bank",
+      "role": "Infrastructure Architect",
+      "attendeeType": "Customer",
+      "email": "kevin.wick@usbank.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-145",
+      "name": "Sueli Almeida",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "Db2 for z/OS Modernization for Cloud & DevOps",
+      "attendeeType": "IBM Team",
+      "email": "sueli@us.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-147",
+      "name": "Madhu",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "STSM, Chief architect z Software Security",
+      "attendeeType": "IBM Team",
+      "email": "madhu.b.a@in.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-148",
+      "name": "Roger Bales",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "Program Director - z/OS Strategy",
+      "attendeeType": "IBM Team",
+      "email": "rlbales@us.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-149",
+      "name": "Juan Bernabé-Moreno",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "Director, IBM Research Europa / Ireland and UK",
+      "attendeeType": "IBM Team",
+      "email": "Juan.Bernabe-Moreno@ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-150",
+      "name": "Kristine Berry",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "ZDC Program Management",
+      "attendeeType": "IBM Team",
+      "email": "kberry@us.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-151",
+      "name": "Jeff Biamonte",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "Vice President, IBM Z & LinuxONE, Firmware & Program Delivery",
+      "attendeeType": "IBM Team",
+      "email": "jbiamonte@us.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-152",
+      "name": "Andreas Bieswanger",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "IBM Fellow and IBM Z CTO Platform Management & Optimization",
+      "attendeeType": "IBM Team",
+      "email": "ANBIE@de.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-153",
+      "name": "Andrew Bowker",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "Sr. Product Manager - IBM Z Software",
+      "attendeeType": "IBM Team",
+      "email": "Andrew.Bowker@ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-155",
+      "name": "Shelley Brand",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "Business Design Lead",
+      "attendeeType": "IBM Team",
+      "email": "Shelley.Brand@ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-156",
+      "name": "Elianne Bravo",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "IBM Z Principal Product Manager",
+      "attendeeType": "IBM Team",
+      "email": "elianne@us.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-158",
+      "name": "Chris Byrnes",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "Senior Product Manager, IBM zSoftware",
+      "attendeeType": "IBM Team",
+      "email": "Christopher.Byrnes@ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-159",
+      "name": "Jose Castano",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "Vice President, WW Sales IBM Z & LinuxONE",
+      "attendeeType": "IBM Team",
+      "email": "castano@us.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-163",
+      "name": "Bryan Childs",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "Principal Product Manager, IBM Z Security Software",
+      "attendeeType": "IBM Team",
+      "email": "bchilds@us.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-165",
+      "name": "Anthony Cocuzza",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "Design Principal, zNext and IaaS",
+      "attendeeType": "IBM Team",
+      "email": "amcocuzz@us.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-166",
+      "name": "Reid Copeland",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "Distinguished Engineer - Principal Architect, Compilation Technology",
+      "attendeeType": "IBM Team",
+      "email": "rcopelan@ca.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-167",
+      "name": "Domenico D'Alterio",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "Principal Product Manager - AIOps for IBM Z",
+      "attendeeType": "IBM Team",
+      "email": "Domenico.DAlterio@it.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-168",
+      "name": "Anne Dames",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "Distinguished Engineer, Cryptographic Technology Development",
+      "attendeeType": "IBM Team",
+      "email": "annedames@us.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-169",
+      "name": "Nicolas Dangeville",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "STSM - IBM Bob for Z",
+      "attendeeType": "IBM Team",
+      "email": "dangeville.n@fr.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-170",
+      "name": "Donna Dillenberger",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "IBM Fellow, AI, Z Systems, Security",
+      "attendeeType": "IBM Team",
+      "email": "engd@us.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-172",
+      "name": "Ivan Dovgan",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "STSM - watsonx Assistant for Z Architect",
+      "attendeeType": "IBM Team",
+      "email": "ivandov@us.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-173",
+      "name": "Robert Enochs",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "Principal Product Manager, IBM Z Security",
+      "attendeeType": "IBM Team",
+      "email": "Robert.Enochs@ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-176",
+      "name": "Latrell Freeman",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "Architect, IBM Bob Premium Package for Z",
+      "attendeeType": "IBM Team",
+      "email": "Latrell.Freeman@us.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-178",
+      "name": "Jeneé Hart",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "Design Manager, IBM Z AIOps",
+      "attendeeType": "IBM Team",
+      "email": "Jenee.Hart@ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-179",
+      "name": "Anu Kaushik",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "Senior Product Manager, IBM Z Integration",
+      "attendeeType": "IBM Team",
+      "email": "anubhuti.kaushik@ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-180",
+      "name": "Ralf Kern",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "Director, IBM Z Platform Management and Firmware Development",
+      "attendeeType": "IBM Team",
+      "email": "RALFKERN@de.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-182",
+      "name": "Rich Larin",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "Director, Z DevX and Platform Engineering",
+      "attendeeType": "IBM Team",
+      "email": "Rich.Larin@ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-183",
+      "name": "Stefanie Lauria",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "Design Principal, AI on IBM Z & LinuxONE Systems",
+      "attendeeType": "IBM Team",
+      "email": "Stefanie.Lauria@ibm.com",
+      "avatar": "",
+      "mobileConsent": false
+    },
+    {
+      "id": "ATT-185",
+      "name": "Kristie LeRoy",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "ZDC Program Management",
+      "attendeeType": "IBM Team",
+      "email": "kleroy@ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-188",
+      "name": "Daniel Martin",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "Distinguished Engineer, Z Software Tools and Data Platform for Generative AI",
+      "attendeeType": "IBM Team",
+      "email": "danmartin@de.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-189",
+      "name": "Meghan McGrath",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "IBM Z Atlas and Polaris",
+      "attendeeType": "IBM Team",
+      "email": "meghanmcgrath@us.ibm.com",
+      "avatar": "",
+      "mobileConsent": false
+    },
+    {
+      "id": "ATT-192",
+      "name": "Jeff Neely",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "Design Director, IBM Z & LinuxONE",
+      "attendeeType": "IBM Team",
+      "email": "jeffneely@us.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-193",
+      "name": "Ray Newsom",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "IBM Z & LinuxONE Hardware Strategy",
+      "attendeeType": "IBM Team",
+      "email": "rnewsom@us.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-194",
+      "name": "Petr Novotny",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "Principal Research Scientist",
+      "attendeeType": "IBM Team",
+      "email": "P.Novotny@ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-197",
+      "name": "Pradeep Parameshwaran",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "CTO, Security on IBM Z and LinuxONE Infrastructure",
+      "attendeeType": "IBM Team",
+      "email": "pradeep@de.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-198",
+      "name": "Purvi Patel",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "Sr AI Client Engagement Leader, AI on IBM Z & LinuxONE",
+      "attendeeType": "IBM Team",
+      "email": "purvi@us.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-199",
+      "name": "Julian Payne",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "Confluent - product manager, Apache Flink",
+      "attendeeType": "IBM Team",
+      "email": "jpayne@ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-200",
+      "name": "Markus Pleier",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "Field CTO - HashiCorp",
+      "attendeeType": "IBM Team",
+      "email": "Markus.Pleier@ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-201",
+      "name": "Kelly Pushong",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "Director of Product Management, IBM Z and LinuxONE SW",
+      "attendeeType": "IBM Team",
+      "email": "kpushong@us.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-202",
+      "name": "Keshav Ramarao",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "Sr. Director Product Management, Confluent",
+      "attendeeType": "IBM Team",
+      "email": "kramarao@ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-205",
+      "name": "Haakon Roberts",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "DE, CTO IBM z Data & AI, Db2 for z/OS & Tools",
+      "attendeeType": "IBM Team",
+      "email": "haakon@us.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-206",
+      "name": "Micah Robison",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "Vice President - Storage Development",
+      "attendeeType": "IBM Team",
+      "email": "micahrob@us.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-208",
+      "name": "Joe Sayer",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "Product Designer, Bob for Z",
+      "attendeeType": "IBM Team",
+      "email": "JSayer@uk.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-209",
+      "name": "Rick Schoonmaker",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "Director, IBM Z and LinuxONE HW & AI Product Management",
+      "attendeeType": "IBM Team",
+      "email": "raschoon@us.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-210",
+      "name": "Ben Segal",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "Senior Technical Staff Member, IBM Z Architecture Lead",
+      "attendeeType": "IBM Team",
+      "email": "bpsegal@us.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-212",
+      "name": "Andrew Sica",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "Distinguished Engineer, CTO z/OS",
+      "attendeeType": "IBM Team",
+      "email": "andrewsi@us.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-213",
+      "name": "Don Spangler",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "Design Principal, IBM Z and LinuxONE",
+      "attendeeType": "IBM Team",
+      "email": "donspang@us.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-214",
+      "name": "Kevin Stoodley",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "CTO: IBM Z",
+      "attendeeType": "IBM Team",
+      "email": "stoodley@ca.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-218",
+      "name": "Elpida Tzortzatos",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "IBM Fellow - CTO AI on IBM Z & LinuxONE",
+      "attendeeType": "IBM Team",
+      "email": "elpida@us.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-222",
+      "name": "Charles Webb",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "IBM Fellow - IBM Z and LinuxONE Performance and Architecture",
+      "attendeeType": "IBM Team",
+      "email": "cfw@us.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-225",
+      "name": "Eva Yan",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "ZDC Program Management",
+      "attendeeType": "IBM Team",
+      "email": "evalyan@us.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-226",
+      "name": "Mike Young",
+      "company": "IBM",
+      "rawCompany": "IBM",
+      "role": "Program Director - IBM z/OS Product Management",
+      "attendeeType": "IBM Team",
+      "email": "miyoung@us.ibm.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-227",
+      "name": "Jo Hagan",
+      "company": "Amex GBT",
+      "rawCompany": "Amex GBT",
+      "role": "Event Staff",
+      "attendeeType": "Staff",
+      "email": "joanne.hagan@amexgbt.com",
+      "avatar": "",
+      "mobileConsent": true
+    },
+    {
+      "id": "ATT-228",
+      "name": "Betty Trounce",
+      "company": "Amex GBT",
+      "rawCompany": "Amex GBT",
+      "role": "Event Staff",
+      "attendeeType": "Staff",
+      "email": "betty.trounce@amexgbt.com",
+      "avatar": "",
+      "mobileConsent": true
+    }
+  ]
+};
+let currentDay = "Sunday";
+let currentTrack = "all";
+let currentDirFilter = "all";
+let bookmarkedIds = JSON.parse(localStorage.getItem("zdc_bookmarks") || '["SESS-1", "SESS-3"]');
+
+async function loadAppData() {
+  try {
+    const res = await fetch("app-data.json");
+    if (res.ok) {
+      appData = await res.json();
+    }
+  } catch (e) {
+    console.info("Using embedded data");
+  }
+  if (appData) {
+    renderSchedule();
+    renderDirectory();
+    renderMyAgenda();
+  }
+}
+
+// NAVIGATION SWITCH
+function switchNav(btn, tabId) {
+  document.querySelectorAll(".nav-item").forEach(i => i.classList.remove("active"));
+  document.querySelectorAll(".view-tab").forEach(t => t.classList.remove("active"));
+  if (btn) btn.classList.add("active");
+  const target = document.getElementById(tabId);
+  if (target) target.classList.add("active");
+
+  if (tabId === "tab-my-agenda") renderMyAgenda();
+}
+
+// FILTER BY DAY
+function filterByDay(btn, day) {
+  document.querySelectorAll(".day-pill").forEach(p => p.classList.remove("active"));
+  btn.classList.add("active");
+  currentDay = day;
+  renderSchedule();
+}
+
+// FILTER BY TRACK
+function filterTrack(btn, track) {
+  document.querySelectorAll(".track-chips .track-chip").forEach(c => c.classList.remove("active"));
+  btn.classList.add("active");
+  currentTrack = track;
+  renderSchedule();
+}
+
+// RENDER SCHEDULE
+function renderSchedule() {
+  const container = document.getElementById("session-list-container");
+  const search = document.getElementById("schedule-search").value.toLowerCase();
+
+  const filtered = appData.sessions.filter(s => {
+    if (s.day !== currentDay) return false;
+    if (currentTrack !== "all") {
+      if (currentTrack === "Collaborative" && !s.type.includes("Collab") && !s.track.includes("Collab")) return false;
+      if (currentTrack === "General" && !s.type.includes("General")) return false;
+      if (currentTrack === "Break" && !s.type.includes("Break") && !s.type.includes("Reception") && !s.type.includes("Meal")) return false;
+    }
+    if (search) {
+      const match = s.title.toLowerCase().includes(search) || 
+                    s.speaker.toLowerCase().includes(search) || 
+                    s.room.toLowerCase().includes(search) || 
+                    s.description.toLowerCase().includes(search);
+      if (!match) return false;
+    }
+    return true;
+  });
+
+  if (filtered.length === 0) {
+    container.innerHTML = "<p style='text-align:center; color:#64748b; padding:24px 0;'>No sessions matching criteria.</p>";
+    return;
+  }
+
+  let html = "";
+  filtered.forEach(s => {
+    const isSaved = bookmarkedIds.includes(s.id);
+    const trackClass = s.type.includes("Collab") ? "track-collab" : 
+                       (s.type.includes("Break") || s.type.includes("Reception")) ? "track-social" : "";
+
+    html += `
+      <div class="session-card ${trackClass}" onclick="openSessionModal('${s.id}')">
+        <div class="card-top">
+          <div class="session-time">${s.timeRange}</div>
+          <button class="bookmark-btn ${isSaved ? 'saved' : ''}" onclick="toggleBookmark(event, '${s.id}')">
+            ${isSaved ? '★' : '☆'}
+          </button>
+        </div>
+        <div class="session-title">${s.title}</div>
+        ${s.speaker ? `<div class="session-speakers">👤 ${s.speaker}</div>` : ''}
+        <div class="card-footer">
+          <div class="room-tag">📍 ${s.room}</div>
+          <span class="track-tag">${s.type}</span>
+        </div>
+      </div>
+    `;
+  });
+  container.innerHTML = html;
+}
+
+// TOGGLE BOOKMARK
+function toggleBookmark(e, sessId) {
+  e.stopPropagation();
+  if (bookmarkedIds.includes(sessId)) {
+    bookmarkedIds = bookmarkedIds.filter(id => id !== sessId);
+  } else {
+    bookmarkedIds.push(sessId);
+  }
+  localStorage.setItem("zdc_bookmarks", JSON.stringify(bookmarkedIds));
+  renderSchedule();
+}
+
+// RENDER MY AGENDA
+function renderMyAgenda() {
+  const container = document.getElementById("my-agenda-container");
+  const bookmarkedSessions = appData.sessions.filter(s => bookmarkedIds.includes(s.id));
+
+  if (bookmarkedSessions.length === 0) {
+    container.innerHTML = `
+      <div style="text-align:center; padding:40px 20px; color:#64748b;">
+        <div style="font-size:32px; margin-bottom:8px;">⭐</div>
+        <p><strong>Your itinerary is empty</strong></p>
+        <p style="font-size:12px; margin-top:4px;">Tap the star icon on any session in the schedule to build your personal plan.</p>
+      </div>
+    `;
+    return;
+  }
+
+  let html = "";
+  bookmarkedSessions.forEach(s => {
+    html += `
+      <div class="session-card" onclick="openSessionModal('${s.id}')">
+        <div class="card-top">
+          <div class="session-time">${s.day} · ${s.timeRange}</div>
+          <button class="bookmark-btn saved" onclick="toggleBookmark(event, '${s.id}'); renderMyAgenda();">★</button>
+        </div>
+        <div class="session-title">${s.title}</div>
+        ${s.speaker ? `<div class="session-speakers">👤 ${s.speaker}</div>` : ''}
+        <div class="card-footer">
+          <div class="room-tag">📍 ${s.room}</div>
+          <span class="track-tag">${s.type}</span>
+        </div>
+      </div>
+    `;
+  });
+  container.innerHTML = html;
+}
+
+// DIRECTORY
+function filterDirType(btn, type) {
+  document.querySelectorAll("#tab-directory .track-chip").forEach(c => c.classList.remove("active"));
+  btn.classList.add("active");
+  currentDirFilter = type;
+  renderDirectory();
+}
+
+function renderDirectory() {
+  const container = document.getElementById("directory-list-container");
+  const search = document.getElementById("directory-search").value.toLowerCase();
+
+  const filtered = appData.directory.filter(a => {
+    if (currentDirFilter === "Customer" && a.attendeeType !== "Customer") return false;
+    if (currentDirFilter === "IBM" && !a.attendeeType.startsWith("IBM")) return false;
+
+    if (search) {
+      const match = a.name.toLowerCase().includes(search) || 
+                    a.company.toLowerCase().includes(search) || 
+                    a.role.toLowerCase().includes(search);
+      if (!match) return false;
+    }
+    return true;
+  });
+
+  let html = "";
+  filtered.forEach(a => {
+    const initials = a.name.split(" ").map(n => n[0]).slice(0,2).join("").toUpperCase();
+    const isIBM = a.attendeeType.startsWith("IBM");
+    const badgeClass = a.attendeeType === "Customer" ? "badge-cust" : "badge-ibm";
+
+    html += `
+      <div class="directory-card" onclick="alert('Profile: ${a.name}\\nCompany: ${a.company}\\nRole: ${a.role}\\nEmail: ${a.email}')">
+        <div class="avatar ${isIBM ? 'ibm' : ''}">${initials}</div>
+        <div class="dir-info">
+          <div class="dir-name">${a.name}</div>
+          <div class="dir-company">${a.company}</div>
+          <div class="dir-role">${a.role}</div>
+        </div>
+        <span class="badge-tag ${badgeClass}">${a.attendeeType}</span>
+      </div>
+    `;
+  });
+  container.innerHTML = html || "<p style='text-align:center; color:#64748b;'>No attendees found.</p>";
+}
+
+// SESSION MODAL
+function openSessionModal(sessId) {
+  const s = appData.sessions.find(x => x.id === sessId);
+  if (!s) return;
+
+  const isSaved = bookmarkedIds.includes(s.id);
+  const content = document.getElementById("modal-content");
+  content.innerHTML = `
+    <div style="font-size:12px; font-weight:700; color:var(--blue-ibm); margin-bottom:4px;">${s.day} · ${s.timeRange}</div>
+    <h2 style="font-size:18px; font-weight:800; color:#0f172a; margin-bottom:8px; line-height:1.3;">${s.title}</h2>
+    <div style="display:flex; gap:6px; margin-bottom:14px;">
+      <span class="track-tag" style="background:#e0e7ff; color:#1e40af;">📍 ${s.room}</span>
+      <span class="track-tag">${s.type}</span>
+    </div>
+    ${s.speaker ? `
+      <div style="background:#f8fafc; border-radius:8px; padding:10px 12px; margin-bottom:14px; font-size:12px;">
+        <strong>Speaker(s):</strong><br>
+        <span style="color:#334155;">${s.speaker}</span>
+      </div>
+    ` : ''}
+    <div style="font-size:13px; color:#475569; line-height:1.6; margin-bottom:20px;">
+      ${s.description}
+    </div>
+    <div style="display:flex; gap:10px;">
+      <button class="day-pill active" style="flex:1; border-radius:10px; padding:12px;" onclick="toggleBookmark(event, '${s.id}'); openSessionModal('${s.id}');">
+        ${isSaved ? '★ Saved to Itinerary' : '☆ Add to My Agenda'}
+      </button>
+    </div>
+  `;
+  document.getElementById("session-modal").classList.add("open");
+}
+
+function closeModal(e) {
+  if (e.target.id === "session-modal") {
+    document.getElementById("session-modal").classList.remove("open");
+  }
+}
+
+function openAnnouncements() {
+  alert("📢 ANNOUNCEMENTS\n\n1. Welcome to Antwerp! Badge pickup open in Ballroom Foyer.\n2. Wednesday Group Dinner departs from hotel lobby at 6:30 PM sharp.");
+}
+
+window.addEventListener("DOMContentLoaded", loadAppData);
+</script>
+</body>
+</html>
