@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBM Z Design Council — Mobile App Navigation & Screen Showcase</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #0b0f19;
+    color: #f8fafc;
+    padding: 32px 24px 60px;
+    line-height: 1.5;
+  }
+  .header {
+    max-width: 1300px;
+    margin: 0 auto 36px;
+    text-align: center;
+  }
+  .header h1 {
+    font-size: 26px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+  }
+  .header p {
+    font-size: 14px;
+    color: #94a3b8;
+  }
+  .launch-bar {
+    margin-top: 16px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+  }
+  .btn-live {
+    background: #0f62fe;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.15s;
+  }
+  .btn-live:hover { background: #0353e9; }
+
+  /* SCREEN SHOWCASE GRID */
+  .screens-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 28px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .screen-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .screen-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #38bdf8;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .screen-desc {
+    font-size: 12px;
+    color: #94a3b8;
+    margin-bottom: 12px;
+    text-align: center;
+    min-height: 36px;
+  }
+
+  /* PHONE FRAME MOCKUP */
+  .phone-mockup {
+    width: 310px;
+    height: 620px;
+    background: #f4f6fb;
+    border-radius: 36px;
+    border: 8px solid #1e293b;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    color: #161616;
+  }
+
+  /* INNER PHONE UI */
+  .p-topbar {
+    background: #1e2761;
+    color: #fff;
+    padding: 12px 14px 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .p-topbar h4 { font-size: 12px; font-weight: 700; }
+  .p-topbar span { font-size: 9px; color: #cbd5e1; }
+
+  .p-pulse {
+    background: #1e3a8a;
+    color: #fff;
+    padding: 5px 12px;
+    font-size: 9px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .p-dot { width: 6px; height: 6px; background: #22c55e; border-radius: 50%; display: inline-block; margin-right: 4px; }
+
+  .p-body {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    font-size: 11px;
+  }
+
+  .p-pills { display: flex; gap: 4px; margin-bottom: 8px; overflow-x: hidden; }
+  .p-pill { background: #fff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 4px 8px; font-size: 9px; font-weight: 600; white-space: nowrap; }
+  .p-pill.active { background: #1e2761; color: #fff; border-color: #1e2761; }
+
+  .p-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 8px 10px;
+    margin-bottom: 8px;
+    border: 1px solid #e2e8f0;
+    border-left: 3px solid #0f62fe;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  }
+  .p-card.purple { border-left-color: #8a3ffc; }
+  .p-card.amber { border-left-color: #b28600; }
+  .p-card-time { font-size: 9px; font-weight: 700; color: #0f62fe; margin-bottom: 2px; }
+  .p-card-title { font-size: 11px; font-weight: 700; color: #0f172a; line-height: 1.25; margin-bottom: 3px; }
+  .p-card-speaker { font-size: 9px; color: #64748b; margin-bottom: 4px; }
+  .p-card-footer { display: flex; justify-content: space-between; font-size: 8.5px; color: #64748b; border-top: 1px solid #f1f5f9; padding-top: 4px; }
+
+  .p-bottombar {
+    background: #fff;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-around;
+    padding: 6px 2px 10px;
+    font-size: 8px;
+    font-weight: 600;
+    color: #64748b;
+    flex-shrink: 0;
+  }
+  .p-nav-item { text-align: center; }
+  .p-nav-item.active { color: #0f62fe; }
+
+  /* BADGE SCREEN */
+  .p-badge-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 16px 12px;
+    text-align: center;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    margin-top: 10px;
+  }
+  .p-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #1e2761;
+    color: #fff;
+    font-weight: 700;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 8px;
+  }
+  .p-qr {
+    width: 100px;
+    height: 100px;
+    margin: 10px auto;
+    background: #f1f5f9;
+    border: 1px dashed #94a3b8;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+  }
+
+  /* MODAL OVERLAY MOCK */
+  .p-sheet {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border-radius: 16px 16px 0 0;
+    padding: 14px;
+    box-shadow: 0 -10px 25px rgba(0,0,0,0.2);
+    border-top: 1px solid #e2e8f0;
+  }
+
+  /* CALLOUT BADGE */
+  .callout-badge {
+    margin-top: 14px;
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 11px;
+    color: #cbd5e1;
+    width: 310px;
+  }
+  .callout-badge strong { color: #38bdf8; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📱 Attendee Mobile App (PWA) Navigation Showcase</h1>
+  <p>Visual screen-by-screen navigation walkthrough for the IBM Z Design Council on-site event guide</p>
+  <div class="launch-bar">
+    <a href="index.html" class="btn-live" target="_blank">🚀 Open Interactive Mobile App Live</a>
+  </div>
+</div>
+
+<div class="screens-grid">
+
+  <!-- SCREEN 1: SCHEDULE -->
+  <div class="screen-col">
+    <div class="screen-title">1. Schedule & Live Pulse</div>
+    <div class="screen-desc">Day tabs, track chips, instant search, and live "Happening Now" status.</div>
+    <div class="phone-mockup">
+      <div class="p-topbar">
+        <div>
+          <h4>IBM Z Design Council</h4>
+          <span>Fall 2026 · Antwerp</span>
+        </div>
+        <span>🔔 👤</span>
+      </div>
+      <div class="p-pulse">
+        <span><span class="p-dot"></span>Happening: Opening Keynote</span>
+        <span>Ballroom</span>
+      </div>
+      <div class="p-body">
+        <div class="p-pills">
+          <div class="p-pill active">Sun Oct 18</div>
+          <div class="p-pill">Mon Oct 19</div>
+          <div class="p-pill">Tue Oct 20</div>
+          <div class="p-pill">Wed Oct 21</div>
+        </div>
+        <div class="p-card">
+          <div class="p-card-time">04:00 – 05:00 PM</div>
+          <div class="p-card-title">Introduction to the ZDC</div>
+          <div class="p-card-speaker">👤 Jeff Neely, Rick Schoonmaker</div>
+          <div class="p-card-footer">
+            <span>📍 Belle Epoque Ballroom</span>
+            <span>General Session</span>
+          </div>
+        </div>
+        <div class="p-card amber">
+          <div class="p-card-time">05:00 – 06:00 PM</div>
+          <div class="p-card-title">Welcome Reception & Drinks</div>
+          <div class="p-card-speaker">All Attendees & Sponsors</div>
+          <div class="p-card-footer">
+            <span>📍 Ballroom Foyer</span>
+            <span>Social</span>
+          </div>
+        </div>
+        <div class="p-card purple">
+          <div class="p-card-time">10:00 – 12:00 PM (Mon)</div>
+          <div class="p-card-title">IBM Z Atlas Collaborative</div>
+          <div class="p-card-speaker">👤 Roger Bales, Andrew Bowker</div>
+          <div class="p-card-footer">
+            <span>📍 Shah Room</span>
+            <span>Collaborative</span>
+          </div>
+        </div>
+      </div>
+      <div class="p-bottombar">
+        <div class="p-nav-item active">📅<br>Schedule</div>
+        <div class="p-nav-item">⭐<br>My Plan</div>
+        <div class="p-nav-item">👥<br>Directory</div>
+        <div class="p-nav-item">📍<br>Venue</div>
+        <div class="p-nav-item">🪪<br>Badge</div>
+      </div>
+    </div>
+    <div class="callout-badge">
+      <strong>Tap Action:</strong> Tapping any card slides up Screen 2 (Details Drawer). Tapping ⭐ saves to My Plan.
+    </div>
+  </div>
+
+  <!-- SCREEN 2: SESSION DETAIL DRAWER -->
+  <div class="screen-col">
+    <div class="screen-title">2. Session Detail Drawer</div>
+    <div class="screen-desc">Slide-up sheet with full speaker bios, abstract, room directions, and bookmarking.</div>
+    <div class="phone-mockup">
+      <div class="p-topbar">
+        <div>
+          <h4>IBM Z Design Council</h4>
+          <span>Fall 2026 · Antwerp</span>
+        </div>
+        <span>✕</span>
+      </div>
+      <div class="p-body" style="background: rgba(0,0,0,0.15);">
+        <div class="p-sheet">
+          <div style="width:30px; height:3px; background:#cbd5e1; margin:0 auto 8px; border-radius:2px;"></div>
+          <div style="font-size:9px; font-weight:700; color:#0f62fe;">MONDAY · 09:00 – 09:30 AM</div>
+          <div style="font-size:12px; font-weight:800; color:#0f172a; margin:4px 0;">AI on IBM Z: From Transactional Intelligence to Agentic Workflows</div>
+          <div style="display:flex; gap:4px; margin:6px 0;">
+            <span style="background:#e0e7ff; color:#1e40af; font-size:8px; padding:2px 5px; border-radius:4px; font-weight:600;">📍 Belle Epoque Ballroom</span>
+            <span style="background:#f1f5f9; font-size:8px; padding:2px 5px; border-radius:4px;">Keynote</span>
+          </div>
+          <div style="background:#f8fafc; border-radius:6px; padding:6px; font-size:9.5px; margin:6px 0;">
+            <strong>Speaker:</strong> Purvi Patel<br>
+            <span style="color:#64748b;">VP & Distinguished Engineer, IBM Z</span>
+          </div>
+          <p style="font-size:9px; color:#475569; line-height:1.4;">
+            IBM Z clients are embedding AI directly into transactions — real-time fraud detection, credit scoring, and agentic workflows.
+          </p>
+          <button style="width:100%; margin-top:10px; background:#1e2761; color:#fff; border:none; border-radius:6px; padding:7px; font-size:10px; font-weight:700;">★ Added to My Itinerary</button>
+        </div>
+      </div>
+      <div class="p-bottombar">
+        <div class="p-nav-item active">📅<br>Schedule</div>
+        <div class="p-nav-item">⭐<br>My Plan</div>
+        <div class="p-nav-item">👥<br>Directory</div>
+        <div class="p-nav-item">📍<br>Venue</div>
+        <div class="p-nav-item">🪪<br>Badge</div>
+      </div>
+    </div>
+    <div class="callout-badge">
+      <strong>Tap Action:</strong> Tap "Add to My Itinerary" or swipe down to return to Schedule.
+    </div>
+  </div>
+
+  <!-- SCREEN 3: MY PLAN -->
+  <div class="screen-col">
+    <div class="screen-title">3. Personal Itinerary (My Plan)</div>
+    <div class="screen-desc">Clean chronological view of only bookmarked sessions with conflict alerts.</div>
+    <div class="phone-mockup">
+      <div class="p-topbar">
+        <div>
+          <h4>IBM Z Design Council</h4>
+          <span>⭐ My Personal Itinerary</span>
+        </div>
+        <span>🔔 👤</span>
+      </div>
+      <div class="p-body">
+        <div style="font-size:11px; font-weight:700; color:#1e2761; margin-bottom:8px;">3 Sessions Selected</div>
+        <div class="p-card">
+          <div class="p-card-time">SUN · 04:00 – 05:00 PM</div>
+          <div class="p-card-title">Introduction to the ZDC</div>
+          <div class="p-card-speaker">👤 Jeff Neely, Rick Schoonmaker</div>
+          <div class="p-card-footer"><span>📍 Ballroom</span><span style="color:#f59e0b;">★ Saved</span></div>
+        </div>
+        <div class="p-card">
+          <div class="p-card-time">MON · 09:00 – 09:30 AM</div>
+          <div class="p-card-title">AI on IBM Z Keynote</div>
+          <div class="p-card-speaker">👤 Purvi Patel</div>
+          <div class="p-card-footer"><span>📍 Ballroom</span><span style="color:#f59e0b;">★ Saved</span></div>
+        </div>
+        <div class="p-card purple">
+          <div class="p-card-time">TUE · 10:00 – 12:00 PM</div>
+          <div class="p-card-title">Hybrid Cloud Modernization</div>
+          <div class="p-card-speaker">👤 Collaborative Track A</div>
+          <div class="p-card-footer"><span>📍 Shah Room</span><span style="color:#f59e0b;">★ Saved</span></div>
+        </div>
+      </div>
+      <div class="p-bottombar">
+        <div class="p-nav-item">📅<br>Schedule</div>
+        <div class="p-nav-item active">⭐<br>My Plan</div>
+        <div class="p-nav-item">👥<br>Directory</div>
+        <div class="p-nav-item">📍<br>Venue</div>
+        <div class="p-nav-item">🪪<br>Badge</div>
+      </div>
+    </div>
+    <div class="callout-badge">
+      <strong>Persistence:</strong> Stored in device local storage so it works even offline.
+    </div>
+  </div>
+
+  <!-- SCREEN 4: DIRECTORY -->
+  <div class="screen-col">
+    <div class="screen-title">4. Attendee & Speaker Directory</div>
+    <div class="screen-desc">Searchable roster of all 123 registered attendees and session speakers.</div>
+    <div class="phone-mockup">
+      <div class="p-topbar">
+        <div>
+          <h4>Directory (123)</h4>
+          <span>Connect & Network</span>
+        </div>
+        <span>🔍</span>
+      </div>
+      <div class="p-body">
+        <div class="p-pills">
+          <div class="p-pill active">All (123)</div>
+          <div class="p-pill">Clients (60)</div>
+          <div class="p-pill">IBM Team (60)</div>
+        </div>
+        <div style="background:#fff; border-radius:8px; padding:6px 10px; margin-bottom:6px; display:flex; align-items:center; gap:8px; border:1px solid #e2e8f0;">
+          <div style="width:30px; height:30px; border-radius:50%; background:#dbeafe; color:#1e40af; font-weight:700; font-size:11px; display:flex; align-items:center; justify-content:center;">PH</div>
+          <div style="flex:1;">
+            <div style="font-weight:700; font-size:10.5px;">Peter Heijblom</div>
+            <div style="color:#0f62fe; font-size:9px; font-weight:600;">ABN AMRO</div>
+          </div>
+          <span style="background:#dcfce7; color:#15803d; font-size:8px; padding:2px 5px; border-radius:3px; font-weight:600;">Client</span>
+        </div>
+        <div style="background:#fff; border-radius:8px; padding:6px 10px; margin-bottom:6px; display:flex; align-items:center; gap:8px; border:1px solid #e2e8f0;">
+          <div style="width:30px; height:30px; border-radius:50%; background:#f3e8ff; color:#6b21a8; font-weight:700; font-size:11px; display:flex; align-items:center; justify-content:center;">PP</div>
+          <div style="flex:1;">
+            <div style="font-weight:700; font-size:10.5px;">Purvi Patel</div>
+            <div style="color:#6b21a8; font-size:9px; font-weight:600;">IBM Z AI Lead</div>
+          </div>
+          <span style="background:#f3e8ff; color:#6b21a8; font-size:8px; padding:2px 5px; border-radius:3px; font-weight:600;">Speaker</span>
+        </div>
+        <div style="background:#fff; border-radius:8px; padding:6px 10px; margin-bottom:6px; display:flex; align-items:center; gap:8px; border:1px solid #e2e8f0;">
+          <div style="width:30px; height:30px; border-radius:50%; background:#dbeafe; color:#1e40af; font-weight:700; font-size:11px; display:flex; align-items:center; justify-content:center;">JF</div>
+          <div style="flex:1;">
+            <div style="font-weight:700; font-size:10.5px;">Jorn Fledelius</div>
+            <div style="color:#0f62fe; font-size:9px; font-weight:600;">American Express</div>
+          </div>
+          <span style="background:#dcfce7; color:#15803d; font-size:8px; padding:2px 5px; border-radius:3px; font-weight:600;">Client</span>
+        </div>
+      </div>
+      <div class="p-bottombar">
+        <div class="p-nav-item">📅<br>Schedule</div>
+        <div class="p-nav-item">⭐<br>My Plan</div>
+        <div class="p-nav-item active">👥<br>Directory</div>
+        <div class="p-nav-item">📍<br>Venue</div>
+        <div class="p-nav-item">🪪<br>Badge</div>
+      </div>
+    </div>
+    <div class="callout-badge">
+      <strong>Tap Action:</strong> Tapping any attendee displays role, enterprise account, and contact info.
+    </div>
+  </div>
+
+  <!-- SCREEN 5: DIGITAL BADGE -->
+  <div class="screen-col">
+    <div class="screen-title">5. Digital Badge & Check-in QR</div>
+    <div class="screen-desc">Personalized mobile badge with fast check-in QR code for on-site registration desk.</div>
+    <div class="phone-mockup">
+      <div class="p-topbar">
+        <div>
+          <h4>Digital Event Badge</h4>
+          <span>ZDC Fall 2026</span>
+        </div>
+        <span>⚙️</span>
+      </div>
+      <div class="p-body">
+        <div class="p-badge-card">
+          <div style="font-size:8px; font-weight:700; color:#1e2761; letter-spacing:1px; margin-bottom:8px;">IBM Z DESIGN COUNCIL</div>
+          <div class="p-avatar">PH</div>
+          <div style="font-size:14px; font-weight:800; color:#0f172a;">Peter Heijblom</div>
+          <div style="font-size:11px; font-weight:700; color:#0f62fe;">ABN AMRO</div>
+          <div style="font-size:9px; color:#64748b; margin-bottom:6px;">Executive Sponsor · Client</div>
+          <div class="p-qr">🔲</div>
+          <div style="font-size:8px; font-family:monospace; color:#94a3b8;">REG-1003 · SCAN AT DESK</div>
+        </div>
+      </div>
+      <div class="p-bottombar">
+        <div class="p-nav-item">📅<br>Schedule</div>
+        <div class="p-nav-item">⭐<br>My Plan</div>
+        <div class="p-nav-item">👥<br>Directory</div>
+        <div class="p-nav-item">📍<br>Venue</div>
+        <div class="p-nav-item active">🪪<br>Badge</div>
+      </div>
+    </div>
+    <div class="callout-badge">
+      <strong>Desk Utility:</strong> Rapid badge check-in with the Registration Admin scanner.
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
